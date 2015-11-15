@@ -24,7 +24,7 @@ namespace DiffusionOfSlowingNeutrons
         Environment[] data; //массовые числа ядер и соответствующие макроконстанты
         double energy; //энергия нейтронов источника
         Vector3D position; //координаты источника нейтронов
-        static const double Et = 0.025;
+        const double Et = 0.025;
 
         //конструктор
         public Model(Environment[] env, double eng, Vector3D pos, int amtN)
