@@ -24,14 +24,16 @@ namespace DiffusionOfSlowingNeutrons
         Environment[] data; //массовые числа ядер и соответствующие макроконстанты
         double energy; //энергия нейтронов источника
         Vector3D position; //координаты источника нейтронов
+        Random rand;
         const double Et = 0.025;
 
         //конструктор
-        public Model(Environment[] env, double eng, Vector3D pos, int amtN)
+        public Model(Environment[] env, double eng, Vector3D pos)
         {
             data = env;
             energy = eng;
             position = pos;
+            rand = new Random();
         }
 
         //свойства
@@ -54,7 +56,6 @@ namespace DiffusionOfSlowingNeutrons
         private double WayLength()
         {
             //длина свободного пробега нейтрона до столкновения
-            Random rand = new Random();
             double gamma = rand.NextDouble();
             double sumSigma = 0 ;
             for (int i = 0; i <= data.Length -1; i++ )
@@ -70,7 +71,6 @@ namespace DiffusionOfSlowingNeutrons
         private Vector3D Omega()
         {
             //направляющие косинусы движения нейтронов от изотропного источника
-            Random rand = new Random();
             double gamma = rand.NextDouble();
             Vector3D res = new Vector3D();
             res.Z = 1 - 2 * gamma;
@@ -92,7 +92,6 @@ namespace DiffusionOfSlowingNeutrons
         private int ChooseElement()
         {
             // определяется с ядром какого сорта столкнулся нейтрон
-            Random rand = new Random();
             double gamma = rand.NextDouble();
             double sumSigma = data[0].Sigma + data[1].Sigma;
             if (gamma < data[0].Sigma / sumSigma)
@@ -115,6 +114,10 @@ namespace DiffusionOfSlowingNeutrons
             List<Result> res = new List<Result>();
             double resEnergy = energy;
             Vector3D curPosition = position;
+            Result r;
+            r.Position = position;
+            r.Energy = energy;
+            res.Add(r);
             do
             {
                 double ls = WayLength();
@@ -131,7 +134,6 @@ namespace DiffusionOfSlowingNeutrons
                     elementNumber = 0;
                 }
                 resEnergy = Final(elementNumber, resEnergy, omega);
-                Result r;
                 r.Energy = resEnergy;
                 r.Position = contactPoint;
                 res.Add(r);

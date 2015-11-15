@@ -108,6 +108,15 @@ namespace DiffusionOfSlowingNeutrons
         {
             int nDataNo = 50;
             TestScatterPlot(nDataNo);
+            Environment[] env = new Environment[1];
+            env[0].MassNumber = 12;
+            env[0].Sigma = 1;
+            Model model = new Model(env, 3, new Vector3D(1, 2, 3));
+            List<Result> res = model.mainCalculations();
+            foreach (Result r in res)
+            {
+                Console.WriteLine("Position: {0}, {1}, {2}; Energy: {3}", r.Position.X, r.Position.Y, r.Position.Z, r.Energy);
+            }
         }
 
         private void vpNeutrons_MouseUp(object sender, MouseButtonEventArgs e)
