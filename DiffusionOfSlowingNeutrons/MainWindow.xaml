@@ -3,6 +3,40 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Button Height="50" Margin="0,10,0.4,260.8" Click="Button_Click">
+            Start shit
+        </Button>
+            <Viewport3D Name="vpNeutrons" 
+                    Grid.Column="1" 
+                    Grid.Row="0"
+                    ClipToBounds = "False"  
+                    IsHitTestVisible="false"
+                    RenderOptions.EdgeMode="Aliased">
+                <Viewport3D.Camera>
+                    <OrthographicCamera x:Name="camera" Width="2"
+                    FarPlaneDistance="10"
+	                NearPlaneDistance="1" 
+	                LookDirection="0,0,-1"
+	                UpDirection="0,1,0"
+	                Position="0,0,2" />
+                </Viewport3D.Camera>
+                <Viewport3D.Children>
+                    <ModelVisual3D x:Name="Light1">
+                        <ModelVisual3D.Content>
+                            <DirectionalLight Color="White" Direction="1, 1, -1" />
+                        </ModelVisual3D.Content>
+                    </ModelVisual3D>
+                    <ModelVisual3D x:Name="Light2">
+                        <ModelVisual3D.Content>
+                            <DirectionalLight Color="White" Direction="-1, 1, -1" />
+                        </ModelVisual3D.Content>
+                    </ModelVisual3D>
+                    <ModelVisual3D x:Name="Light3">
+                        <ModelVisual3D.Content>
+                            <DirectionalLight Color="White" Direction="0,-1,-0.5" />
+                        </ModelVisual3D.Content>
+                    </ModelVisual3D>
+                </Viewport3D.Children>
+        </Viewport3D>
     </Grid>
 </Window>
