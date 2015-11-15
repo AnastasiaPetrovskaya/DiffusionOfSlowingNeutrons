@@ -16,7 +16,7 @@
         <Button Name="btnStart"            
             Click="Button_Click"
             Grid.Row="0">
-            Start shit
+            Start model
         </Button>
         <Label Name="lblPlotName"
                Grid.Row="0"
