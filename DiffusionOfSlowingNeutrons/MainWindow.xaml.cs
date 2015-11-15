@@ -109,5 +109,66 @@ namespace DiffusionOfSlowingNeutrons
             int nDataNo = 50;
             TestScatterPlot(nDataNo);
         }
+
+        private void vpNeutrons_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Point pt = e.GetPosition(vpNeutrons);
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                m_transformMatrix.OnLBtnUp();
+            }
+            else if (e.ChangedButton == MouseButton.Right)
+            {
+                if (m_nChartModelIndex == -1) return;
+                // 1. get the mesh structure related to the selection rect
+                MeshGeometry3D meshGeometry = WPFChart3D.Model3D.GetGeometry(vpNeutrons, m_nChartModelIndex);
+                if (meshGeometry == null) return;
+
+                // 2. set selection in 3d chart
+                m_3dChart.Select(m_selectRect, m_transformMatrix, vpNeutrons);
+
+                // 3. update selection display
+                m_3dChart.HighlightSelection(meshGeometry, Color.FromRgb(200, 200, 200));
+            }
+        }
+
+        private void vpNeutrons_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point pt = e.GetPosition(vpNeutrons);
+
+            if (e.LeftButton == MouseButtonState.Pressed)                // rotate or drag 3d model
+            {
+                m_transformMatrix.OnMouseMove(pt, vpNeutrons);
+
+                TransformChart();
+            }
+            else if (e.RightButton == MouseButtonState.Pressed)          // select rect
+            {
+                m_selectRect.OnMouseMove(pt, vpNeutrons, m_nRectModelIndex);
+            }
+            else
+            {
+                /*
+                String s1;
+                Point pt2 = m_transformMatrix.VertexToScreenPt(new Point3D(0.5, 0.5, 0.3), vpNeutrons);
+                s1 = string.Format("Screen:({0:d},{1:d}), Predicated: ({2:d}, H:{3:d})", 
+                    (int)pt.X, (int)pt.Y, (int)pt2.X, (int)pt2.Y);
+                this.statusPane.Text = s1;
+                */
+            }
+        }
+
+        private void vpNeutrons_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Point pt = e.GetPosition(vpNeutrons);
+            if (e.ChangedButton == MouseButton.Left)         // rotate or drag 3d model
+            {
+                m_transformMatrix.OnLBtnDown(pt);
+            }
+            else if (e.ChangedButton == MouseButton.Right)   // select rect
+            {
+                m_selectRect.OnMouseDown(pt, vpNeutrons, m_nRectModelIndex);
+            }
+        }
     }
 }
