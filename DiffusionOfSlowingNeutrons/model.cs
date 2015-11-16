@@ -98,7 +98,7 @@ namespace DiffusionOfSlowingNeutrons
             {
                 return 0;
             }
-            return 1;            
+            return 1;
         }
 
         private double Final(int element, double curEnergy, Vector3D omega)
