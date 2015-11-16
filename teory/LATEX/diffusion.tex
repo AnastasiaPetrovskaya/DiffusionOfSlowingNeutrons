@@ -1,0 +1,172 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english, russian]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+
+\title{Диффузия замедляющихся нейтроноДиффузия замедляющихся нейтронов.}
+\author{K01-22М: Петровская, Бодунков, Таракчян, Царь}
+
+\begin{document}
+\maketitle
+dkfjhksdjлваорыолвфра
+воларловр
+\begin{abstract}
+Your abstract.
+\end{abstract}
+
+\section{Introduction}
+    Найдем функциональную связь между временем и энергией
+    при непрерывном торможении нейтрона. Пусть нейтрон при
+    своем замедлени проходит энергетический интервал $dE$,
+    около энергии $E$ за время $dt$. Нейтрон снижает свою
+    энергию за счет того, что за время dt сталкивается с ядрами среды.
+    \newline
+    Число таких столкновений при диффузии нейтрона легко определяется 
+    из соотношений
+    \begin{equation}
+        \frac{V}{l_s}dt
+        \text{, где $V$ - скорость нейтрона}
+    \end{equation}
+    соответствующая энергия $E$.
+    \newline
+    С другой стороны, число столкновений, которое необходимо
+    претерпеть нейтрону, чтобы изменить свою энергию на величину $dE$,
+    есть отношение приращения логарифма энергии на этом интервале к
+    величине $\xi$ - средней потере логарифма энергии на одно
+    столкновение. Приравняем эти величины и ваполняя простые
+    преобразования, получим:
+    \begin{equation}
+        \frac{dE}{dt} = -\frac{V}{l_s}\xi E = \xi \Sigma_s V E
+    \end{equation}
+    Знак ($-$) в этом выражении взят с целью описать факт уменьшения
+    энергии нейтрона со временем.
+    \newline
+    Обратимся теперь к следующей задаче: в бесконечной непоглощающей
+    среде находится точечный источник, испускающий нейтроны с энергией
+    $E_o$. Если источник испускает в единицу времени какую-то порцию
+    нейтронов, то эти нейтроны будут распределяться по все
+    возрастающему объему. Поэтому число нетронов в $I \text{ см}^3$
+    около точки с координатой $\overrightarrow{r}$, будет зависеть от
+    хронологического времени
+    $t$, т.е. \( n_1 = n_1 (\overrightarrow{r},t) \).
+    \newline
+    Изменение плотности нейтронов $n_1(\overrightarrow{r},t)$ при
+    отсутствии поглощения происходит только за счет диффузии, поэтому:
+    \begin{equation}
+        \frac{\partial n_1}{\partial t} = D V_\Delta n_1
+    \end{equation}
+    \newline
+    Уравнение (3) описывает изменение плотности нейтронов, за счет
+    того, что источник испустил порцию нейтронов, равную мощности
+    источники, то есть, по сути дела, уравнения (3) описывает скорость
+    изменения числа нейтронов, т.е. 
+    \(n_1(\overrightarrow{r}, t)=\frac{dn}{dt}\).
+    Учтем, что переменные $t$ и $E$ связанны соотношением (1).
+    Поскольку форма дифференциала $dn$ не зависит от того, что
+    рассматривать в качемтве переменной, имеем
+    \begin{equation}
+        dn = \frac{dn}{dt}dt \text{\;\;\;\;\;\;или\;\;\;\;\;\;}
+        dn = \frac{dn}{dE}dE
+    \end{equation}
+    откуда
+    \begin{equation}
+        \frac{dn}{dt}dt = \frac{dn}{dE}dE
+    \end{equation}
+    Обозначим \(\frac{dn}{dE}=n_2(\overrightarrow{r},E)\), тогда
+    будем иметь
+    \begin{equation}
+        n_1(\overrightarrow{r},t)dt = n_2(\overrightarrow{r},E)dE
+    \end{equation}
+    откуда
+    \begin{equation}
+        n_1(\overrightarrow{r},t) =
+        n_2(\overrightarrow{r},E)\frac{dE}{dt} =
+        n_2(\overrightarrow{r},E) V \xi E \Sigma_s
+    \end{equation}
+    или
+    \begin{equation}
+        n_1(\overrightarrow{r},t) =
+        \varPhi(\overrightarrow{r}, E) \xi \Sigma_s E
+    \end{equation}
+    \newline
+    $\frac{dn}{dE}$ - есть число нейтронов в ед. объема,
+    приходящихся на единичный энергетический интервал, т.е.
+    $\varphi(\overrightarrow{r},E)$.
+    \newline
+    Величина \(q(\overrightarrow{r},\overrightarrow{E})=
+    \xi\Sigma_s E\varphi(\overrightarrow{r},E) \)
+    носит название плотности замедления и имеет смысл числа нейтронов
+    в $I\text{ см}^3$ пересекающих в ед. времени значение энергии $E$.
+    \newline
+    Действительно, величина $\xi$ есть среднее изменение логорифма
+    энергии в одном акте рассеяния
+    \begin{equation}
+        \xi = \overline{_\Delta ln E} \approx
+        \overline{(ln E)^{'}_E {}_\Delta E} =
+        \overline{\frac{1}{E} {}_\Delta E}
+        \text{, откуда } \overline{{}_\Delta E} = \xi E
+    \end{equation}
+    \newline
+    $\overline{{}_\Delta E}$ - потеря энергии нейтроном в одном акте
+    рассеяния. Если интервал $\overline{{}_\Delta E}$ расположен
+    между $E$ и $E + \overline{{}_\Delta E}$, то каждое рассеяние
+    приводит к снижению энергии нейтрона за значение $E$.
+    \newline
+    Число нейтронов претерпевших рассеяние в интервале
+    $[E, E + \overline{{}_\Delta E}]$, есть произведение числа
+    нейтронов рассеяных в единичном интервале энергий
+    $\varphi(E)\Sigma_s$ на величину
+    $\overline{{}_\Delta E}$. Все эти нейтроны снижают свою энергию
+    за значение $E$, следовательно
+    \begin{equation}
+        q(\overrightarrow{r},E) =
+        \varphi(E)\Sigma_s\overline{{}_\Delta E} =
+        \Sigma_s\varphi(E)E
+    \end{equation}
+    \newline
+    Так как \(\frac{\partial n_1}{\partial E} =
+    \frac{\partial n_1}{\partial E} \frac{\partial E}{\partial t}\)
+    , и \(n_1 = q(\overrightarrow{r},E)\), получим из уравнения (3)
+    относительно плотности нейтронов, уравнение (23) относительно
+    плотности замедления
+    \begin{equation}
+        D_\Delta q(\overrightarrow{r}, E) = -\xi E\Sigma_s
+        \frac{\partial q(\overrightarrow{r}, E)}{\partial E}
+    \end{equation}
+    Уравнение (23) можно еще упростить, если ввести новую независимую
+    переменную
+    \begin{equation}
+        \tau(E) = \int_E^{E_0} \frac{D}{\Sigma_s}\frac{dE}{\xi E}
+    \end{equation}
+    \begin{equation}
+        \text{Очевидно, что }
+        \frac{\partial q}{\partial \tau}
+        \frac{\partial \tau}{\partial E} =
+        \frac{\partial q}{\partial E}
+        \text{; откуда}
+    \end{equation}
+    \begin{equation}
+        \frac{\partial q}{\partial \tau} =
+        \frac{\partial q}{\partial E}
+        \frac{1}{\frac{\partial \tau}{\partial E}}
+        \text{ , но }
+        \frac{\partial \tau}{\partial E} =
+        -\frac{D}{\Sigma_s\xi E}
+    \end{equation}
+    \begin{equation}
+        \text{т.е. }
+        \frac{\partial q}{\partial \tau} =
+        -\frac{\xi\Sigma_s E}{D}\frac{\partial q}{\partial E}
+    \end{equation}
+    Тогда уравнение (23) запишется в следующем виде
+    \begin{equation}\label{eq_24}\tag{24}
+        {}_\Delta q(\overrightarrow{r}, \tau) =
+        \frac{\partial q(\overrightarrow{r}, \tau)}{\partial \tau}
+    \end{equation}
+    Уравнение (\ref{eq_24}) описывает распределение в пространстве
+    $\overrightarrow{r}$ и в пространстве $\tau$ плотности
+    замедления $q(\overrightarrow{r}, \tau)$.
+\end{document}
