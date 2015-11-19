@@ -57,7 +57,7 @@ namespace DiffusionOfSlowingNeutrons
         {
             //длина свободного пробега нейтрона до столкновения
             double gamma = rand.NextDouble();
-            double sumSigma = 0 ;
+            double sumSigma = 0;
             for (int i = 0; i <= data.Length -1; i++ )
             {
                 sumSigma += data[i].Sigma;
@@ -73,9 +73,9 @@ namespace DiffusionOfSlowingNeutrons
             //направляющие косинусы движения нейтронов от изотропного источника
             double gamma = rand.NextDouble();
             Vector3D res = new Vector3D();
-            res.Z = 1 - 2 * gamma;
-            res.X = Math.Sqrt(1 - res.Z * res.Z) * Math.Cos(gamma - 2 * Math.PI);
-            res.Y = Math.Sqrt(1 - res.Z * res.Z) * Math.Sin(2 * Math.PI - gamma);
+            res.Z = 1.0 - 2.0 * gamma;
+            res.X = Math.Sqrt(1.0 - res.Z * res.Z) * Math.Cos(gamma - 2.0 * Math.PI);
+            res.Y = Math.Sqrt(1.0 - res.Z * res.Z) * Math.Sin(2.0 * Math.PI - gamma);
             return res;
         }
 
@@ -85,7 +85,7 @@ namespace DiffusionOfSlowingNeutrons
             Vector3D res = new Vector3D();
             res.X = currentPos.X + omegaCos.X * wayLenght;
             res.Y = currentPos.Y + omegaCos.Y * wayLenght;
-            res.X = currentPos.Z + omegaCos.Z * wayLenght;
+            res.Z = currentPos.Z + omegaCos.Z * wayLenght;
             return res;
         }
 
@@ -98,14 +98,14 @@ namespace DiffusionOfSlowingNeutrons
             {
                 return 0;
             }
-            return 1;            
+            return 1;
         }
 
         private double Final(int element, double curEnergy, Vector3D omega)
         {
-            double eps = Math.Pow((data[element].MassNumber - 1), 2) / Math.Pow((data[element].MassNumber + 1), 2);
+            double eps = Math.Pow((data[element].MassNumber - 1.0), 2) / Math.Pow((data[element].MassNumber + 1.0), 2);
             double resEnergy;
-            resEnergy = curEnergy * ((1 + eps) + (1 - eps) * omega.Z) / 2;
+            resEnergy = curEnergy * ((1.0 + eps) + (1.0 - eps) * omega.Z) / 2;
             return resEnergy;
         }
 
