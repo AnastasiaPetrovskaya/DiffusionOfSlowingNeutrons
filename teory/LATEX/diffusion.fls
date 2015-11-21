@@ -202,6 +202,7 @@ INPUT /home/alzater/.texmf-var/fonts/tfm/lh/lh-t2a/larm0700.tfm
 INPUT /home/alzater/.texmf-var/fonts/tfm/lh/lh-t2a/larm0500.tfm
 OUTPUT diffusion.pdf
 INPUT /var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map
+INPUT /home/alzater/.texmf-var/fonts/tfm/lh/lh-t2a/labx1200.tfm
 INPUT diffusion.aux
 INPUT /usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t2a.enc
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
@@ -214,6 +215,7 @@ INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb
+INPUT /usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb
 INPUT /usr/share/texmf/fonts/type1/public/cm-super/sfrm0500.pfb
 INPUT /usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb
 INPUT /usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb
