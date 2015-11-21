@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1448119932 "diffusion.tex" "diffusion.pdf" "diffusion" 1448119933
+["pdflatex"] 1448121464 "diffusion.tex" "diffusion.pdf" "diffusion" 1448121464
   "/etc/texmf/web2c/texmf.cnf" 1421526778 1101 af7716885e081ab43982cab7b4672c1a ""
   "/home/alzater/.texmf-var/fonts/tfm/lh/lh-t2a/labx1200.tfm" 1448017890 3308 eee81981029f67083258db36df06e523 ""
   "/home/alzater/.texmf-var/fonts/tfm/lh/lh-t2a/larm0500.tfm" 1447599296 3252 bc0f8cc163ba94bbce20e59f671a255d ""
@@ -148,8 +148,8 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1392645748 31083 1dfd8bf685ce0009c40532fedf8a7c53 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1421527003 1346346 7f2b8b715a9ddb095afe3697a6ba02b5 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1421526933 3822874 b1fa0839fdc8d88d37b4b3c9803be0b4 ""
-  "diffusion.aux" 1448119933 2138 3923464bd451327f1a79f490a3aecd4c ""
-  "diffusion.tex" 1448119932 34256 68a8e6132720be491d413ee5a2c6e691 ""
+  "diffusion.aux" 1448121464 2138 e1fad5064f9b861008e64fb448e38b67 ""
+  "diffusion.tex" 1448121463 34312 3a1307df6c3f5d3af53a1ee6520ef2c6 ""
   (generated)
   "diffusion.log"
   "diffusion.pdf"

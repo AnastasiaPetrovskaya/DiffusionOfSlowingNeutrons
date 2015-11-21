@@ -258,12 +258,13 @@
     \newline
     Среднее время замедления нейтрона от энергии $E_0$ до энергии
     $E_T$ определяется с помощью выражения (20)
-    \begin{equation}\nonumber
+    \begin{eqnarray}\nonumber
         t_\text{зам} = \int_0^{t_\text{зам}} dt =
         \int_{E_T}^{E_0} - \frac{dE}{\xi \Sigma_s VE} =
-        \int_{E_T}^{E_0} - \frac{dE}{\xi \Sigma TODO E^{3/2}} =
-        \frac{1}{TODO \xi \Sigma_s \oint}
-    \end{equation}
+        \int_{E_T}^{E_0} - \frac{dE}{\xi\Sigma\sqrt{2}E^{3/2}} =\\
+        \frac{1}{\sqrt{2}\xi\Sigma_s}\\
+        \left[-\frac{1}{\left(\frac{3}{2}-1\right)E^{3/2-1}}\right]\\
+    \end{eqnarray}
     Если в качестве $E_0$ принять среднюю энергию нейтронов деления,
     т.е. \(E_0 TODO{приблизительно} 2\text{Мэв}\), то \(V_0 TODO{стремится} V_T\)
     и предыдущее выражение еще более упростится
@@ -309,8 +310,8 @@
     изотропного источника
     \begin{equation}\nonumber
         \omega_z = 1 - 2\gamma;\qquad
-        \omega_x = TODOSQRT{1 - \omega_z^2}\cos{(2\pi\gamma)};\qquad
-        \omega_y = TODOSQRT{1 - \omega_z^2}\sin{(2\pi\gamma)}
+        \omega_x = \sqrt{1 - \omega_z^2}\cos{(2\pi\gamma)};\qquad
+        \omega_y = \sqrt{1 - \omega_z^2}\sin{(2\pi\gamma)}
     \end{equation}
     \newline
     3. Рассчитывается точка, где нейтрон столкнулся с ядром:
@@ -318,7 +319,7 @@
         X_K = X_M + \omega_x l;\qquad
         Y_K = Y_M + \omega_y l;\qquad
         Z_K = Z_M + \omega_z l;\qquad
-        r_K = TODOSQRT{X_K^2 + Y_K^2 + Z_K^2}
+        r_K = \sqrt{X_K^2 + Y_K^2 + Z_K^2}
     \end{equation}
     Если среда двухкомпонентная, то определяется с какого сорта ядром
     столкнулся нейтрон. Для этого разыгрывается $\gamma$ из $[0,1]$ и
@@ -339,8 +340,8 @@
     величина $\gamma$ из интервала $[0,1]$
     \begin{eqnarray}\nonumber
         1. \cos{Q} = 1 - 2 \gamma = \omega_z
-        \omega_x = TODOSQRT{1-\omega_z^2}\cos{(2\pi\gamma)}
-        \omega_y = TODOSQRT{1-\omega_z^2}\sin{(2\pi\gamma)}
+        \omega_x = \sqrt{1-\omega_z^2}\cos{(2\pi\gamma)}
+        \omega_y = \sqrt{1-\omega_z^2}\sin{(2\pi\gamma)}
         l_s = - \frac{ln{\gamma}}{\Sigma_{tr}}
         2. \epsilon = \frac{{(A-1)}^2}{{(A+1)}^2}
         3. E_1 = \frac{E_0}{2}[(1 + \epsilon) + (1 - \epsilon)
