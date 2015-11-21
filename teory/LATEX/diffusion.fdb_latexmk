@@ -1,6 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1447971603 "diffusion.tex" "diffusion.pdf" "diffusion" 1447971603
+["pdflatex"] 1448119932 "diffusion.tex" "diffusion.pdf" "diffusion" 1448119933
   "/etc/texmf/web2c/texmf.cnf" 1421526778 1101 af7716885e081ab43982cab7b4672c1a ""
+  "/home/alzater/.texmf-var/fonts/tfm/lh/lh-t2a/labx1200.tfm" 1448017890 3308 eee81981029f67083258db36df06e523 ""
   "/home/alzater/.texmf-var/fonts/tfm/lh/lh-t2a/larm0500.tfm" 1447599296 3252 bc0f8cc163ba94bbce20e59f671a255d ""
   "/home/alzater/.texmf-var/fonts/tfm/lh/lh-t2a/larm0700.tfm" 1447599294 3256 b15a2ce2310c0038b96c5235b038f0eb ""
   "/home/alzater/.texmf-var/fonts/tfm/lh/lh-t2a/larm1000.tfm" 1442780521 3220 0e417eaf233b160335902e97259a6c77 ""
@@ -79,6 +80,7 @@
   "/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty" 1350473462 4934 09bb8eb3760faa4ffb6107a36e5b3d76 ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1392645748 31083 1dfd8bf685ce0009c40532fedf8a7c53 ""
   "/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t2a.enc" 1367930684 3141 82d5616418ed8d5de703b3951bedecb4 ""
+  "/usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb" 1421526994 140176 d4962f948b4cc0adf4d3dde77a128c95 ""
   "/usr/share/texmf/fonts/type1/public/cm-super/sfrm0500.pfb" 1421526994 180418 5fa231fda2d05a9c0eca9fd483cc7254 ""
   "/usr/share/texmf/fonts/type1/public/cm-super/sfrm0700.pfb" 1421526994 154599 ded6d7c21788a8930eadc7fef7518942 ""
   "/usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb" 1367930684 138258 6525c253f16cededa14c7fd0da7f67b2 ""
@@ -146,8 +148,8 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1392645748 31083 1dfd8bf685ce0009c40532fedf8a7c53 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1421527003 1346346 7f2b8b715a9ddb095afe3697a6ba02b5 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1421526933 3822874 b1fa0839fdc8d88d37b4b3c9803be0b4 ""
-  "diffusion.aux" 1447971603 294 89943c9b02b2fe505eec328ea316b54e ""
-  "diffusion.tex" 1447971601 21425 149517341f5add2882d0613a9beb4869 ""
+  "diffusion.aux" 1448119933 2138 3923464bd451327f1a79f490a3aecd4c ""
+  "diffusion.tex" 1448119932 34256 68a8e6132720be491d413ee5a2c6e691 ""
   (generated)
   "diffusion.log"
   "diffusion.pdf"
