@@ -74,8 +74,8 @@ namespace DiffusionOfSlowingNeutrons
             double gamma = rand.NextDouble();
             Vector3D res = new Vector3D();
             res.Z = 1.0 - 2.0 * gamma;
-            res.X = Math.Sqrt(1.0 - res.Z * res.Z) * Math.Cos(gamma - 2.0 * Math.PI);
-            res.Y = Math.Sqrt(1.0 - res.Z * res.Z) * Math.Sin(2.0 * Math.PI - gamma);
+            res.X = Math.Sqrt(1.0 - res.Z * res.Z) * Math.Cos(gamma * 2.0 * Math.PI);
+            res.Y = Math.Sqrt(1.0 - res.Z * res.Z) * Math.Sin(2.0 * Math.PI * gamma);
             return res;
         }
 

@@ -35,7 +35,6 @@ namespace WPFChart3D
         public int m_nRectModelIndex = -1;
 
 
-
         public Window1()
         {
             InitializeComponent();
