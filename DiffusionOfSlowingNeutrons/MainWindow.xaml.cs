@@ -16,6 +16,7 @@ using System.Windows.Media.Media3D;
 using WPFChart;
 using WPFChart3D;
 using System.Collections;
+using OxyPlot;
 
 namespace DiffusionOfSlowingNeutrons
 {
@@ -113,6 +114,7 @@ namespace DiffusionOfSlowingNeutrons
             Vector3D startPoint = new Vector3D(1, 2, 3);
 
             session = new ModellingSession(env, 3, startPoint);
+            this.DataContext = session;
 
             lblModelParams.Content = String.Format("Параметры среды:\nМассовое число: {0}\nМакросечение: {1}\nКоординаты источника:\n{{{2}, {3}, {4}}}",
                 env[0].MassNumber, env[0].Sigma, startPoint.X, startPoint.Y, startPoint.Z);
@@ -126,6 +128,7 @@ namespace DiffusionOfSlowingNeutrons
             if (session != null)
             {
                 int neutronsCount = session.ModelNextNeutron();
+                plotAverageL.InvalidatePlot();
                 lstNeutrons.Items.Clear();
                 for (int i = 1; i <= neutronsCount; i++)
                     lstNeutrons.Items.Add(i);
@@ -136,6 +139,8 @@ namespace DiffusionOfSlowingNeutrons
 
         private void ShowNeutron(int i)
         {
+            if (i == -1)
+                return;
             Result neutron = session[i];
             DrawNeutronWay(neutron);
             lblStats.Content = String.Format("<l> = {0}, L = {1}, t = {2}", neutron.AverageL, neutron.SumL, neutron.Count - 1);

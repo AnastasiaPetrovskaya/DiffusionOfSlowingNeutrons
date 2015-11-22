@@ -1,6 +1,7 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="DiffusionOfSlowingNeutrons.MainWindow"
         KeyDown="OnKeyDown"
         Title="Diffusion of slowing neutrons" Height="500" Width="600">
@@ -94,6 +95,23 @@
                        Grid.Row="1"
                        Grid.Column="0" />
 
+                </Grid>
+            </TabItem>
+            <TabItem Header="Статистика">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    
+                    <oxy:Plot Name="plotAverageL" Title="Средняя длина свободного пробега">
+                        <oxy:Plot.Series>
+                            <oxy:LineSeries ItemsSource="{Binding AverageL}" />
+                        </oxy:Plot.Series>
+                    </oxy:Plot>
                 </Grid>
             </TabItem>
         </TabControl>
