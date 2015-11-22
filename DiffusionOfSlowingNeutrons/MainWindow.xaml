@@ -25,7 +25,7 @@
         <Viewport3D x:Name="vpNeutrons"
 			Grid.Row="1"
 			Grid.Column="1"
-			ClipToBounds = "False"
+			ClipToBounds = "True"
 			IsHitTestVisible="false"
 			RenderOptions.EdgeMode="Aliased"
                 >
@@ -82,6 +82,13 @@
 
             <Button x:Name="btnNextStep" Content="Еще n нейтронов" Click="btnNextStep_Click"/>
             <Button x:Name="btnNextNeutron" Content="Еще один нейтрон" Click="btnNextNeutron_Click"/>
+            <Label Name="lblModelParams">
+                
+            </Label>
         </StackPanel>
+        <Label Name="lblStats"
+               Grid.Row="2"
+               Grid.Column="1">
+        </Label>
     </Grid>
 </Window>

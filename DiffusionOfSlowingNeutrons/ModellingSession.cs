@@ -9,24 +9,24 @@ namespace DiffusionOfSlowingNeutrons
 {
     class ModellingSession
     {
-        List<List<Result>> neutrons;
+        List<Result> neutrons;
         Model model;
 
         public ModellingSession(Environment[] env, double energy, Vector3D position)
         {
             this.model = new Model(env, energy, position);
-            this.neutrons = new List<List<Result>>();
+            this.neutrons = new List<Result>();
         }
 
         //return neutrons count for list box
         public int ModelNextNeutron()
         {
-            List<Result> res = model.mainCalculations();
+            Result res = model.mainCalculations();
             neutrons.Add(res);
             return neutrons.Count();
         }
 
-        public List<Result> this[int i]
+        public Result this[int i]
         {
             get
             {

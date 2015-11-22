@@ -58,19 +58,19 @@ namespace DiffusionOfSlowingNeutrons
             group1.Children.Add(new MatrixTransform3D(m_transformMatrix.m_totalMatrix));
         }
 
-        public void DrawNeutronWay(List<Result> points)
+        public void DrawNeutronWay(Result points)
         {
             if (points.Count == 0)
                 return;
 
-            float dataRange = 1.0f;
+            float dataRange = 0.0f;
             neutronWay = new ScatterChart3D();
             neutronWay.SetDataNo(points.Count());
             double maxEnergy = points[0].Energy;
             int i = 0;
             foreach (var point in points)
             {
-                Console.WriteLine("Position: {0}, {1}, {2}; Energy: {3}", point.Position.X, point.Position.Y, point.Position.Z, point.Energy);
+                //Console.WriteLine("Position: {0}, {1}, {2}; Energy: {3}", point.Position.X, point.Position.Y, point.Position.Z, point.Energy);
 
                 ScatterPlotItem item = new ScatterPlotItem();
                 item.x = (float)point.Position.X;
@@ -99,7 +99,7 @@ namespace DiffusionOfSlowingNeutrons
             WPFChart3D.Model3D model3d = new WPFChart3D.Model3D();
             m_nChartModelIndex = model3d.UpdateModel(meshs, null, m_nChartModelIndex, this.vpNeutrons);
 
-            float viewRange = (float)dataRange;
+            float viewRange = (float)dataRange * 1.2f;
             m_transformMatrix.CalculateProjectionMatrix(0, viewRange, 0, viewRange, 0, viewRange, 0.5);
             TransformChart();
         }
@@ -110,7 +110,12 @@ namespace DiffusionOfSlowingNeutrons
             env[0].MassNumber = 12;
             env[0].Sigma = 1;
 
-            session = new ModellingSession(env, 3, new Vector3D(1, 2, 3));
+            Vector3D startPoint = new Vector3D(1, 2, 3);
+
+            session = new ModellingSession(env, 3, startPoint);
+
+            lblModelParams.Content = String.Format("Параметры среды:\nМассовое число: {0}\nМакросечение: {1}\nКоординаты источника:\n{{{2}, {3}, {4}}}",
+                env[0].MassNumber, env[0].Sigma, startPoint.X, startPoint.Y, startPoint.Z);
 
             int neutronToShow = NextNeutron();
             ShowNeutron(neutronToShow);
@@ -131,8 +136,9 @@ namespace DiffusionOfSlowingNeutrons
 
         private void ShowNeutron(int i)
         {
-            List<Result> neutron = session[i];
+            Result neutron = session[i];
             DrawNeutronWay(neutron);
+            lblStats.Content = String.Format("<l> = {0}, L = {1}, t = {2}", neutron.AverageL, neutron.SumL, neutron.Count - 1);
         }
 
         private void vpNeutrons_MouseUp(object sender, MouseButtonEventArgs e)
