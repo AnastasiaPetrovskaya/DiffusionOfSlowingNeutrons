@@ -68,6 +68,7 @@ namespace DiffusionOfSlowingNeutrons
             neutronWay = new ScatterChart3D();
             neutronWay.SetDataNo(points.Count());
             double maxEnergy = points[0].Energy;
+            float size = Math.Min(0.2f, (float)points.AverageL / 5.0f);
             int i = 0;
             foreach (var point in points)
             {
@@ -78,8 +79,8 @@ namespace DiffusionOfSlowingNeutrons
                 item.y = (float)point.Position.Y;
                 item.z = (float)point.Position.Z;
 
-                item.w = 0.2f; //(float)point.Energy;
-                item.h = 0.2f; //(float)point.Energy;
+                item.w = size; //(float)point.Energy;
+                item.h = size; //(float)point.Energy;
 
                 dataRange = Math.Max(dataRange, Math.Abs(item.x));
                 dataRange = Math.Max(dataRange, Math.Abs(item.y));
@@ -94,7 +95,7 @@ namespace DiffusionOfSlowingNeutrons
             }
 
             neutronWay.GetDataRange();
-            neutronWay.SetAxes();
+            neutronWay.SetAxesOrigin();
 
             ArrayList meshs = ((ScatterChart3D)neutronWay).GetMeshes();
             WPFChart3D.Model3D model3d = new WPFChart3D.Model3D();
@@ -107,20 +108,45 @@ namespace DiffusionOfSlowingNeutrons
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Environment[] env = new Environment[1];
-            env[0].MassNumber = 12;
-            env[0].Sigma = 1;
+            StartModelWindow win = new StartModelWindow();
+            win.ShowDialog();
 
-            Vector3D startPoint = new Vector3D(1, 2, 3);
+            Vector3D startPoint = win.Position;
+            double energy = win.Energy;
+            int count = win.Count;
 
-            session = new ModellingSession(env, 3, startPoint);
+            //Environment[] env = new Environment[1];
+            //env[0].MassNumber = 12;
+            //env[0].Sigma = 1;
+
+            Environment[] env;
+            if (win.TwoComponents)
+            {
+                env = win.Env;
+            }
+            else
+            {
+                env = new Environment[1];
+                env[0] = win.Env[0];
+            }
+
+            session = new ModellingSession(env, energy, startPoint);
             this.DataContext = session;
 
-            lblModelParams.Content = String.Format("Параметры среды:\nМассовое число: {0}\nМакросечение: {1}\nКоординаты источника:\n{{{2}, {3}, {4}}}",
-                env[0].MassNumber, env[0].Sigma, startPoint.X, startPoint.Y, startPoint.Z);
+            if (env.Count() == 1)
+                lblModelParams.Content = String.Format("Параметры среды:\nМассовое число: {0}\nМакросечение: {1}\nКоординаты источника:\n{{{2}, {3}, {4}}}\nЭнергия источника: {5}",
+                    env[0].MassNumber, env[0].Sigma, startPoint.X, startPoint.Y, startPoint.Z, energy);
+            else if (env.Count() == 2)
+                lblModelParams.Content = String.Format("Параметры среды:\nЭлемент 1:\nМассовое число: {0}\nМакросечение: {1}\nЭлемент 2:\nМассовое число: {2}\nМакросечение: {3}\nКоординаты источника:\n{{{4}, {5}, {6}}}\nЭнергия источника: {7}",
+                    env[0].MassNumber, env[0].Sigma, env[1].MassNumber, env[1].Sigma, startPoint.X, startPoint.Y, startPoint.Z, energy);
 
-            int neutronToShow = NextNeutron();
-            ShowNeutron(neutronToShow);
+            int neutronToShow = -1;
+            for (int i = 0; i < count; i++)
+                neutronToShow = NextNeutron();
+
+            if (neutronToShow != -1)
+                ShowNeutron(neutronToShow);
+            plotAverageL.InvalidatePlot();
         }
 
         private int NextNeutron()

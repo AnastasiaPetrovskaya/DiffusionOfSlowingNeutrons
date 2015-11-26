@@ -135,6 +135,20 @@ namespace WPFChart3D
             SetAxes(0.05f);
         }
 
+        public void SetAxesOrigin()
+        {
+            float xC = 0;
+            float yC = 0;
+            float zC = 0;
+            float xL = 2*Math.Max(Math.Abs(m_xMax), Math.Abs(m_xMin));
+            float yL = 2*Math.Max(Math.Abs(m_yMax), Math.Abs(m_yMin));
+            float zL = 2*Math.Max(Math.Abs(m_zMax), Math.Abs(m_zMin));
+
+            m_bAxesOrigin = true;
+
+            SetAxes(xC, yC, zC, xL, yL, zL);
+        }
+
         public void SetAxes(float margin)
         {
             float xRange = m_xMax - m_xMin;
@@ -157,38 +171,72 @@ namespace WPFChart3D
         {
             if (!m_bUseAxes) return;
 
-            float radius = (m_xAxisLength+m_yAxisLength+m_zAxisLength) / (3*m_axisLengthWidthRatio);
+            float radius = Math.Min((m_xAxisLength+m_yAxisLength+m_zAxisLength) / (3*m_axisLengthWidthRatio), 0.1f);
 
-            Mesh3D xAxisCylinder = new Cylinder3D(radius, radius, m_xAxisLength, 6);
-            xAxisCylinder.SetColor(m_axisColor);
-            TransformMatrix.Transform(xAxisCylinder, new Point3D( m_xAxisCenter + m_xAxisLength / 2, m_yAxisCenter, m_zAxisCenter), 0, 90);
-            meshs.Add(xAxisCylinder);
+            if (m_bAxesOrigin)
+            {
+                Mesh3D xAxisCylinder = new Cylinder3D(radius, radius, m_xAxisLength, 6);
+                xAxisCylinder.SetColor(m_axisColor);
+                TransformMatrix.Transform(xAxisCylinder, new Point3D(m_xAxisCenter, 0, 0), 0, 90);
+                meshs.Add(xAxisCylinder);
 
-            Mesh3D xAxisCone = new Cone3D(2 * radius, 2 * radius, radius * 5, 6);
-            xAxisCone.SetColor(m_axisColor);
-            TransformMatrix.Transform(xAxisCone, new Point3D(m_xAxisCenter + m_xAxisLength, m_yAxisCenter, m_zAxisCenter), 0, 90);
-            meshs.Add(xAxisCone);
-         
-            Mesh3D yAxisCylinder = new Cylinder3D(radius, radius, m_yAxisLength, 6);
-            yAxisCylinder.SetColor(m_axisColor);
-            TransformMatrix.Transform(yAxisCylinder, new Point3D(m_xAxisCenter , m_yAxisCenter+ m_yAxisLength / 2, m_zAxisCenter), 90, 90);
-            meshs.Add(yAxisCylinder);
-            
-            Mesh3D yAxisCone = new Cone3D(2 * radius, 2 * radius, radius * 5, 6);
-            yAxisCone.SetColor(m_axisColor);
-            TransformMatrix.Transform(yAxisCone, new Point3D(m_xAxisCenter, m_yAxisCenter + m_yAxisLength, m_zAxisCenter), 90, 90);
-            meshs.Add(yAxisCone);
-   
-            Mesh3D zAxisCylinder = new Cylinder3D(radius, radius, m_zAxisLength, 6);
-            zAxisCylinder.SetColor(m_axisColor);
-            TransformMatrix.Transform(zAxisCylinder, new Point3D(m_xAxisCenter , m_yAxisCenter, m_zAxisCenter + m_zAxisLength / 2), 0, 0);
-            meshs.Add(zAxisCylinder);
-                         
-            Mesh3D zAxisCone = new Cone3D(2 * radius, 2 * radius, radius * 5, 6);
-            zAxisCone.SetColor(m_axisColor);
-            TransformMatrix.Transform(zAxisCone, new Point3D(m_xAxisCenter, m_yAxisCenter, m_zAxisCenter + m_zAxisLength), 0, 0);
-            meshs.Add(zAxisCone);
-            
+                Mesh3D xAxisCone = new Cone3D(2 * radius, 2 * radius, radius * 5, 6);
+                xAxisCone.SetColor(m_axisColor);
+                TransformMatrix.Transform(xAxisCone, new Point3D(m_xAxisCenter + m_xAxisLength / 2, 0, 0), 0, 90);
+                meshs.Add(xAxisCone);
+
+                Mesh3D yAxisCylinder = new Cylinder3D(radius, radius, m_yAxisLength, 6);
+                yAxisCylinder.SetColor(m_axisColor);
+                TransformMatrix.Transform(yAxisCylinder, new Point3D(0, m_yAxisCenter, 0), 90, 90);
+                meshs.Add(yAxisCylinder);
+
+                Mesh3D yAxisCone = new Cone3D(2 * radius, 2 * radius, radius * 5, 6);
+                yAxisCone.SetColor(m_axisColor);
+                TransformMatrix.Transform(yAxisCone, new Point3D(0, m_yAxisCenter + m_yAxisLength / 2, 0), 90, 90);
+                meshs.Add(yAxisCone);
+
+                Mesh3D zAxisCylinder = new Cylinder3D(radius, radius, m_zAxisLength, 6);
+                zAxisCylinder.SetColor(m_axisColor);
+                TransformMatrix.Transform(zAxisCylinder, new Point3D(0, 0, m_zAxisCenter), 0, 0);
+                meshs.Add(zAxisCylinder);
+
+                Mesh3D zAxisCone = new Cone3D(2 * radius, 2 * radius, radius * 5, 6);
+                zAxisCone.SetColor(m_axisColor);
+                TransformMatrix.Transform(zAxisCone, new Point3D(0, 0, m_zAxisCenter + m_zAxisLength / 2), 0, 0);
+                meshs.Add(zAxisCone);
+            }
+            else
+            {
+                Mesh3D xAxisCylinder = new Cylinder3D(radius, radius, m_xAxisLength, 6);
+                xAxisCylinder.SetColor(m_axisColor);
+                TransformMatrix.Transform(xAxisCylinder, new Point3D(m_xAxisCenter + m_xAxisLength / 2, m_yAxisCenter, m_zAxisCenter), 0, 90);
+                meshs.Add(xAxisCylinder);
+
+                Mesh3D xAxisCone = new Cone3D(2 * radius, 2 * radius, radius * 5, 6);
+                xAxisCone.SetColor(m_axisColor);
+                TransformMatrix.Transform(xAxisCone, new Point3D(m_xAxisCenter + m_xAxisLength, m_yAxisCenter, m_zAxisCenter), 0, 90);
+                meshs.Add(xAxisCone);
+
+                Mesh3D yAxisCylinder = new Cylinder3D(radius, radius, m_yAxisLength, 6);
+                yAxisCylinder.SetColor(m_axisColor);
+                TransformMatrix.Transform(yAxisCylinder, new Point3D(m_xAxisCenter, m_yAxisCenter + m_yAxisLength / 2, m_zAxisCenter), 90, 90);
+                meshs.Add(yAxisCylinder);
+
+                Mesh3D yAxisCone = new Cone3D(2 * radius, 2 * radius, radius * 5, 6);
+                yAxisCone.SetColor(m_axisColor);
+                TransformMatrix.Transform(yAxisCone, new Point3D(m_xAxisCenter, m_yAxisCenter + m_yAxisLength, m_zAxisCenter), 90, 90);
+                meshs.Add(yAxisCone);
+
+                Mesh3D zAxisCylinder = new Cylinder3D(radius, radius, m_zAxisLength, 6);
+                zAxisCylinder.SetColor(m_axisColor);
+                TransformMatrix.Transform(zAxisCylinder, new Point3D(m_xAxisCenter, m_yAxisCenter, m_zAxisCenter + m_zAxisLength / 2), 0, 0);
+                meshs.Add(zAxisCylinder);
+
+                Mesh3D zAxisCone = new Cone3D(2 * radius, 2 * radius, radius * 5, 6);
+                zAxisCone.SetColor(m_axisColor);
+                TransformMatrix.Transform(zAxisCone, new Point3D(m_xAxisCenter, m_yAxisCenter, m_zAxisCenter + m_zAxisLength), 0, 0);
+                meshs.Add(zAxisCone);
+            }      
         }
 
         // select 
@@ -209,7 +257,7 @@ namespace WPFChart3D
         private float m_axisLengthWidthRatio = 200;                     // axis length / width ratio
         private float m_xAxisLength, m_yAxisLength, m_zAxisLength;      // axis length
         private float m_xAxisCenter, m_yAxisCenter, m_zAxisCenter;      // axis start point
-        private bool m_bUseAxes = false;                                // use axis
+        private bool m_bUseAxes = false, m_bAxesOrigin = false;         // use axis, axes center at {0, 0, 0}
         public Color m_axisColor = Color.FromRgb(0, 0, 196);            // axis color
 
     }

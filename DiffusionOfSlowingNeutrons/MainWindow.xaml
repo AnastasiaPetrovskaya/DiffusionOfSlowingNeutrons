@@ -4,7 +4,7 @@
         xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="DiffusionOfSlowingNeutrons.MainWindow"
         KeyDown="OnKeyDown"
-        Title="Diffusion of slowing neutrons" Height="500" Width="600">
+        Title="Diffusion of slowing neutrons" Height="550" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
