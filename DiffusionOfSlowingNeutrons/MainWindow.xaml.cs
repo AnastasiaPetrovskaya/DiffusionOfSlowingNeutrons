@@ -128,7 +128,6 @@ namespace DiffusionOfSlowingNeutrons
             if (session != null)
             {
                 int neutronsCount = session.ModelNextNeutron();
-                plotAverageL.InvalidatePlot();
                 lstNeutrons.Items.Clear();
                 for (int i = 1; i <= neutronsCount; i++)
                     lstNeutrons.Items.Add(i);
@@ -226,6 +225,7 @@ namespace DiffusionOfSlowingNeutrons
         {
             int neutronToShow = NextNeutron();
             ShowNeutron(neutronToShow);
+            plotAverageL.InvalidatePlot();
         }
 
         private void btnNextStep_Click(object sender, RoutedEventArgs e)
@@ -241,6 +241,7 @@ namespace DiffusionOfSlowingNeutrons
                     lastCnt = NextNeutron();
                 }
                 ShowNeutron(lastCnt);
+                plotAverageL.InvalidatePlot();
             }
         }
     }
