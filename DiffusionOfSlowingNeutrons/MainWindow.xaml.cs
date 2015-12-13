@@ -13,10 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Media3D;
-using WPFChart;
-using WPFChart3D;
 using System.Collections;
 using OxyPlot;
+using HelixToolkit;
+using HelixToolkit.Wpf;
 
 namespace DiffusionOfSlowingNeutrons
 {
@@ -25,85 +25,82 @@ namespace DiffusionOfSlowingNeutrons
     /// </summary>
     public partial class MainWindow : Window
     {
-        // transform class object for rotate the 3d model
-        public WPFChart3D.TransformMatrix m_transformMatrix = new WPFChart3D.TransformMatrix();
-
-        // ***************************** 3d chart ***************************
-        private WPFChart3D.Chart3D neutronWay;       // data for 3d chart
-        public int m_nChartModelIndex = -1;         // model index in the Viewport3d
-        public int m_nSurfaceChartGridNo = 100;     // surface chart grid no. in each axis
-        public int m_nScatterPlotDataNo = 5000;     // total data number of the scatter plot
-
-        // ***************************** selection rect ***************************
-        ViewportRect m_selectRect = new ViewportRect();
-        public int m_nRectModelIndex = -1;
         ModellingSession session;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            m_selectRect.SetRect(new Point(-0.5, -0.5), new Point(-0.5, -0.5));
-            WPFChart3D.Model3D model3d = new WPFChart3D.Model3D();
-            ArrayList meshs = m_selectRect.GetMeshes();
-            m_nRectModelIndex = model3d.UpdateModel(meshs, null, m_nRectModelIndex, this.vpNeutrons);
-        }
-
-        private void TransformChart()
-        {
-            if (m_nChartModelIndex == -1) return;
-            ModelVisual3D visual3d = (ModelVisual3D)(this.vpNeutrons.Children[m_nChartModelIndex]);
-            if (visual3d.Content == null) return;
-            Transform3DGroup group1 = visual3d.Content.Transform as Transform3DGroup;
-            group1.Children.Clear();
-            group1.Children.Add(new MatrixTransform3D(m_transformMatrix.m_totalMatrix));
         }
 
         public void DrawNeutronWay(Result points)
         {
+            viewport.Children.Clear();
             if (points.Count == 0)
                 return;
 
-            float dataRange = 0.0f;
-            neutronWay = new ScatterChart3D();
-            neutronWay.SetDataNo(points.Count());
+            viewport.Children.Add(new DefaultLights());
+
             double maxEnergy = points[0].Energy;
-            float size = Math.Min(0.2f, (float)points.AverageL / 5.0f);
+            float size = Math.Min(0.1f, (float)points.AverageL / 5.0f);
             int i = 0;
+            LinesVisual3D lines = new LinesVisual3D();
+            lines.Thickness = 0.5;
+
+            ArrowVisual3D xAxis = new ArrowVisual3D();
+            ArrowVisual3D yAxis = new ArrowVisual3D();
+            ArrowVisual3D zAxis = new ArrowVisual3D();
+
+            xAxis.Diameter = size / 2;
+            yAxis.Diameter = size / 2;
+            zAxis.Diameter = size / 2;
+
+            xAxis.Fill = new SolidColorBrush(Color.FromRgb(0x96, 0x4B, 0x4B));
+            yAxis.Fill = new SolidColorBrush(Color.FromRgb(0x4B, 0x96, 0x4B));
+            zAxis.Fill = new SolidColorBrush(Color.FromRgb(0x4B, 0x4B, 0x96));
+
+            float maxX = 1, maxY = 1, maxZ = 1;
+
             foreach (var point in points)
             {
-                //Console.WriteLine("Position: {0}, {1}, {2}; Energy: {3}", point.Position.X, point.Position.Y, point.Position.Z, point.Energy);
+                SphereVisual3D item = new SphereVisual3D();
+                item.Center = new Point3D(point.Position.X,
+                                            point.Position.Y,
+                                            point.Position.Z);
 
-                ScatterPlotItem item = new ScatterPlotItem();
-                item.x = (float)point.Position.X;
-                item.y = (float)point.Position.Y;
-                item.z = (float)point.Position.Z;
+                item.Radius = size;
 
-                item.w = size; //(float)point.Energy;
-                item.h = size; //(float)point.Energy;
-
-                dataRange = Math.Max(dataRange, Math.Abs(item.x));
-                dataRange = Math.Max(dataRange, Math.Abs(item.y));
-                dataRange = Math.Max(dataRange, Math.Abs(item.z));
-
-                item.shape = (int)ScatterChart3D.SHAPE.ELLIPSE;
                 byte red = (byte)(255 * (1 - point.Energy / maxEnergy));
                 byte green = (byte)(255 * point.Energy / maxEnergy);
-                item.color = Color.FromRgb(red, green, 0);
-                ((ScatterChart3D)neutronWay).SetVertex(i, item);
+                item.Material  = new DiffuseMaterial(new SolidColorBrush(Color.FromRgb(red, green, 0)));
+                viewport.Children.Add(item);
                 i++;
+
+                
+                maxX = Math.Max(maxX, (float)item.Center.X);
+                maxY = Math.Max(maxY, (float)item.Center.Y);
+                maxZ = Math.Max(maxZ, (float)item.Center.Z);
             }
 
-            neutronWay.GetDataRange();
-            neutronWay.SetAxesOrigin();
+            xAxis.Point2 = new Point3D(maxX, 0, 0);
+            yAxis.Point2 = new Point3D(0, maxY, 0);
+            zAxis.Point2 = new Point3D(0, 0, maxZ);
 
-            ArrayList meshs = ((ScatterChart3D)neutronWay).GetMeshes();
-            WPFChart3D.Model3D model3d = new WPFChart3D.Model3D();
-            m_nChartModelIndex = model3d.UpdateModel(meshs, null, m_nChartModelIndex, this.vpNeutrons);
+            viewport.Children.Add(xAxis);
+            viewport.Children.Add(yAxis);
+            viewport.Children.Add(zAxis);
 
-            float viewRange = (float)dataRange * 1.2f;
-            m_transformMatrix.CalculateProjectionMatrix(0, viewRange, 0, viewRange, 0, viewRange, 0.5);
-            TransformChart();
+            for (int j = 1; j < points.Count; j++)
+            {
+                Point3D begin = new Point3D(points[j - 1].Position.X,
+                                            points[j - 1].Position.Y,
+                                            points[j - 1].Position.Z);
+                Point3D end = new Point3D(points[j].Position.X,
+                                            points[j].Position.Y,
+                                            points[j].Position.Z);
+                lines.Points.Add(begin);
+                lines.Points.Add(end);
+            }
+            viewport.Children.Add(lines);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -169,73 +166,6 @@ namespace DiffusionOfSlowingNeutrons
             Result neutron = session[i];
             DrawNeutronWay(neutron);
             lblStats.Content = String.Format("<l> = {0}, L = {1}, t = {2}", neutron.AverageL, neutron.SumL, neutron.Count - 1);
-        }
-
-        private void vpNeutrons_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Point pt = e.GetPosition(vpNeutrons);
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                m_transformMatrix.OnLBtnUp();
-            }
-            else if (e.ChangedButton == MouseButton.Right)
-            {
-                if (m_nChartModelIndex == -1) return;
-                // 1. get the mesh structure related to the selection rect
-                MeshGeometry3D meshGeometry = WPFChart3D.Model3D.GetGeometry(vpNeutrons, m_nChartModelIndex);
-                if (meshGeometry == null) return;
-
-                // 2. set selection in 3d chart
-                neutronWay.Select(m_selectRect, m_transformMatrix, vpNeutrons);
-
-                // 3. update selection display
-                neutronWay.HighlightSelection(meshGeometry, Color.FromRgb(200, 200, 200));
-            }
-        }
-
-        private void vpNeutrons_MouseMove(object sender, MouseEventArgs e)
-        {
-            Point pt = e.GetPosition(vpNeutrons);
-
-            if (e.LeftButton == MouseButtonState.Pressed)                // rotate or drag 3d model
-            {
-                m_transformMatrix.OnMouseMove(pt, vpNeutrons);
-
-                TransformChart();
-            }
-            //else if (e.RightButton == MouseButtonState.Pressed)          // select rect
-            //{
-            //    m_selectRect.OnMouseMove(pt, vpNeutrons, m_nRectModelIndex);
-            //}
-            else
-            {
-                /*
-                String s1;
-                Point pt2 = m_transformMatrix.VertexToScreenPt(new Point3D(0.5, 0.5, 0.3), vpNeutrons);
-                s1 = string.Format("Screen:({0:d},{1:d}), Predicated: ({2:d}, H:{3:d})", 
-                    (int)pt.X, (int)pt.Y, (int)pt2.X, (int)pt2.Y);
-                this.statusPane.Text = s1;
-                */
-            }
-        }
-
-        public void OnKeyDown(object sender, System.Windows.Input.KeyEventArgs args)
-        {
-            m_transformMatrix.OnKeyDown(args);
-            TransformChart();
-        }
-
-        private void vpNeutrons_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Point pt = e.GetPosition(vpNeutrons);
-            if (e.ChangedButton == MouseButton.Left)         // rotate or drag 3d model
-            {
-                m_transformMatrix.OnLBtnDown(pt);
-            }
-            //else if (e.ChangedButton == MouseButton.Right)   // select rect
-            //{
-            //    m_selectRect.OnMouseDown(pt, vpNeutrons, m_nRectModelIndex);
-            //}
         }
 
         private void lstNeutrons_SelectionChanged(object sender, SelectionChangedEventArgs e)
