@@ -1,82 +1,85 @@
-﻿<Window x:Class="DiffusionOfSlowingNeutrons.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Diffusion of slowing neutrons" Height="500" Width="600">
+        xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
+        xmlns:h="http://helix-toolkit.org/wpf"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="DiffusionOfSlowingNeutrons.MainWindow"
+        Title="Diffusion of slowing neutrons" Height="550" Width="600">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0">
 
-        <Button Name="btnStart"            
-            Click="Button_Click"
-            Grid.Row="0">
-            Start model
-        </Button>
-        <Label Name="lblPlotName"
-               Grid.Row="0"
-               Grid.Column="1"
-               HorizontalAlignment="Center">
-            Neutron position
-        </Label>
-        <Viewport3D Name="vpNeutrons"
-                Grid.Row="1"
-                Grid.Column="1"
-                ClipToBounds = "False"
-                IsHitTestVisible="false"
-                RenderOptions.EdgeMode="Aliased"
-                >
-            <Viewport3D.Camera>
-                <OrthographicCamera x:Name="camera" Width="2"
-                    FarPlaneDistance="10"
-	                NearPlaneDistance="1" 
-	                LookDirection="0,0,-1"
-	                UpDirection="0,1,0"
-	                Position="0,0,2" />
-            </Viewport3D.Camera>
-            <Viewport3D.Children>
-                <ModelVisual3D x:Name="Light1">
-                    <ModelVisual3D.Content>
-                        <DirectionalLight Color="White" Direction="1, 1, -1" />
-                    </ModelVisual3D.Content>
-                </ModelVisual3D>
-                <ModelVisual3D x:Name="Light2">
-                    <ModelVisual3D.Content>
-                        <DirectionalLight Color="White" Direction="-1, 1, -1" />
-                    </ModelVisual3D.Content>
-                </ModelVisual3D>
-                <ModelVisual3D x:Name="Light3">
-                    <ModelVisual3D.Content>
-                        <DirectionalLight Color="White" Direction="0,-1,-0.5" />
-                    </ModelVisual3D.Content>
-                </ModelVisual3D>
-            </Viewport3D.Children>
-        </Viewport3D>
-        <Canvas x:Name="canvasOn3D"
-                Grid.Column="1"
-                Grid.Row="1"
-                Background="Transparent" 
-                MouseUp="vpNeutrons_MouseUp"
-                MouseMove="vpNeutrons_MouseMove"
-                MouseDown="vpNeutrons_MouseDown" Margin="0,0,0,0">
-        </Canvas>
-        <Label Name="lblInfo"
-               Grid.Row="2"
-               Grid.Column="1">
-            Neutron: 0
-            Step: 0
-            Energy: 0
-            Position: {0, 0, 0}
-        </Label>
-        <Button Name="btnNextStep"
-                Grid.Row="2"
-                Grid.Column="0">
-            Next Step
-        </Button>
+            <Button x:Name="btnStart"
+			Click="Button_Click"
+			Content="Начать моделирование"/>
+
+            <Label>
+                Нейтроны:
+            </Label>
+            <ListBox Name="lstNeutrons" Height="200" SelectionChanged="lstNeutrons_SelectionChanged"/>
+
+            <WrapPanel Height="auto">
+                <Label>
+                    n =
+                </Label>
+                <TextBox Name="txtNeutronsToModel" Height="23" TextWrapping="Wrap" Width="100">
+                    10
+                </TextBox>
+            </WrapPanel>
+
+            <Button x:Name="btnNextStep" Content="Еще n нейтронов" Click="btnNextStep_Click"/>
+            <Button x:Name="btnNextNeutron" Content="Еще один нейтрон" Click="btnNextNeutron_Click"/>
+            <Label Name="lblModelParams">
+
+            </Label>
+        </StackPanel>
+        <TabControl Grid.Column="1" Grid.Row="0">
+            <TabItem Header="Судьба нейтрона">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <h:HelixViewport3D Grid.Row="0"
+                                       Grid.Column="0"
+                                       Name="viewport"
+                                       ShowCoordinateSystem="True">
+                        <h:DefaultLights/>
+                    </h:HelixViewport3D>
+
+                    <Label Name="lblStats"
+                       Grid.Row="1"
+                       Grid.Column="0" />
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Статистика">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    
+                    <oxy:Plot Name="plotAverageL" Title="Средняя длина свободного пробега">
+                        <oxy:Plot.Series>
+                            <oxy:LineSeries ItemsSource="{Binding AverageL}" />
+                        </oxy:Plot.Series>
+                    </oxy:Plot>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

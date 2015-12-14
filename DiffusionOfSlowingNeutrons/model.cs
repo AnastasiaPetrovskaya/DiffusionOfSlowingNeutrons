@@ -13,7 +13,7 @@ namespace DiffusionOfSlowingNeutrons
         public double Sigma;
     } 
 
-    public struct Result
+    public struct ResultPoint
     {
         public Vector3D Position;
         public double Energy;
@@ -74,8 +74,8 @@ namespace DiffusionOfSlowingNeutrons
             double gamma = rand.NextDouble();
             Vector3D res = new Vector3D();
             res.Z = 1.0 - 2.0 * gamma;
-            res.X = Math.Sqrt(1.0 - res.Z * res.Z) * Math.Cos(gamma - 2.0 * Math.PI);
-            res.Y = Math.Sqrt(1.0 - res.Z * res.Z) * Math.Sin(2.0 * Math.PI - gamma);
+            res.X = Math.Sqrt(1.0 - res.Z * res.Z) * Math.Cos(gamma * 2.0 * Math.PI);
+            res.Y = Math.Sqrt(1.0 - res.Z * res.Z) * Math.Sin(2.0 * Math.PI * gamma);
             return res;
         }
 
@@ -109,12 +109,12 @@ namespace DiffusionOfSlowingNeutrons
             return resEnergy;
         }
 
-        public List<Result> mainCalculations()
+        public Result mainCalculations()
         {
-            List<Result> res = new List<Result>();
+            Result res = new Result();
             double resEnergy = energy;
             Vector3D curPosition = position;
-            Result r;
+            ResultPoint r;
             r.Position = position;
             r.Energy = energy;
             res.Add(r);
