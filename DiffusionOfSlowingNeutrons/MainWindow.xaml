@@ -4,7 +4,7 @@
         xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
         xmlns:h="http://helix-toolkit.org/wpf"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="DiffusionOfSlowingNeutrons.MainWindow"
-        Title="Diffusion of slowing neutrons" Height="550" Width="600">
+        Title="Диффузия замедляющихся нейтронов" Height="550" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -47,20 +47,55 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
                     <h:HelixViewport3D Grid.Row="0"
                                        Grid.Column="0"
                                        Name="viewport"
-                                       ShowCoordinateSystem="True">
+                                       ShowCoordinateSystem="True" Grid.ColumnSpan="2" Margin="0,0,-0.4,0.4">
                         <h:DefaultLights/>
                     </h:HelixViewport3D>
 
                     <Label Name="lblStats"
-                       Grid.Row="1"
-                       Grid.Column="0" />
+                           Grid.Column="0"
+                           Grid.Row="1"/>
 
+                </Grid>
+            </TabItem>
+            <TabItem Header="Статистика">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <oxy:Plot Name="plotAverageTau"
+                              Title="Среднее τ(E)"
+                              Grid.Row="0">
+                        <oxy:Plot.Axes>
+                            <oxy:LinearAxis Position="Bottom" Title="Энергия E, эВ" />
+                            <oxy:LinearAxis Position="Left" Title="Возраст τ, см^2" />
+                        </oxy:Plot.Axes>
+                        <oxy:Plot.Series>
+                            <oxy:LineSeries ItemsSource="{Binding AverageTau}" />
+                        </oxy:Plot.Series>
+                    </oxy:Plot>
+                    <oxy:Plot Name="plotEr"
+                              Title="E(r^2) для двух нейтронов"
+                              Grid.Row="1">
+                        <oxy:Plot.Axes>
+                            <oxy:LinearAxis Position="Left" Title="Энергия E, эВ" />
+                            <oxy:LinearAxis Position="Bottom" Title="Квадрат смещения r^2, см^2" />
+                        </oxy:Plot.Axes>
+                    </oxy:Plot>
+                    <Button Grid.Row="2" Name="btnOther2" Click="btnOther2_Click">
+                        Рассмотреть два других нейтрона
+                    </Button>
                 </Grid>
             </TabItem>
             <TabItem Header="Статистика">
@@ -73,9 +108,15 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     
-                    <oxy:Plot Name="plotAverageL" Title="Средняя длина свободного пробега">
+                    <oxy:Plot Name="plotAverageTauM"
+                              Title="Среднее τ(M)"
+                              Grid.Row="0">
+                        <oxy:Plot.Axes>
+                            <oxy:LinearAxis Position="Bottom" Title="Число рассмотренных судеб M" />
+                            <oxy:LinearAxis Position="Left" Title="Возраст τ, см^2" />
+                        </oxy:Plot.Axes>
                         <oxy:Plot.Series>
-                            <oxy:LineSeries ItemsSource="{Binding AverageL}" />
+                            <oxy:LineSeries ItemsSource="{Binding AverageTauM}" />
                         </oxy:Plot.Series>
                     </oxy:Plot>
                 </Grid>

@@ -20,24 +20,35 @@ namespace DiffusionOfSlowingNeutrons
     /// </summary>
     public partial class StartModelWindow : Window
     {
-        public StartModelWindow()
-        {
-            InitializeComponent();
-            this.position = new Vector3D(1, 2, 3);
-            this.energy = 3;
-            this.count = 10;
-            this.twoComponents = false;
-            this.env = new Environment[2];
-            this.env[0].MassNumber = 12;
-            this.env[0].Sigma = 1;
-            this.DataContext = this;
-        }
-
+        List<EnvironmentPreset> environments;
         Vector3D position;
         double energy;
         int count;
-        bool twoComponents;
-        Environment[] env;
+        Element[] env;
+
+        public StartModelWindow()
+        {
+            InitializeComponent();
+
+            environments = new List<EnvironmentPreset>(); //добавляем параметры для различных сред
+            environments.Add(new EnvironmentPreset("H2O", new Element[]{new Element(1, 1), new Element(16, 1)}));
+            environments.Add(new EnvironmentPreset("D2O", new Element[]{new Element(2, 1), new Element(16, 1)}));
+            environments.Add(new EnvironmentPreset("Be", new Element[]{new Element(9, 1)}));
+            environments.Add(new EnvironmentPreset("BeO", new Element[]{new Element(9, 1), new Element(16, 1)}));
+            environments.Add(new EnvironmentPreset("C", new Element[]{new Element(12, 1)}));
+
+            lstEnvironment.ItemsSource = environments;
+            lstEnvironment.SelectedItem = environments.Last();
+
+            this.position = new Vector3D(0, 0, 0); //координаты источника
+            this.energy = 1; //начальная энергия (МэВ)
+            this.count = 10; //число судеб для рассмотрения
+
+            //среда - углерод
+            this.env = ((EnvironmentPreset)lstEnvironment.SelectedItem).env;
+
+            this.DataContext = this;
+        }
 
         public Vector3D Position
         {
@@ -75,7 +86,7 @@ namespace DiffusionOfSlowingNeutrons
             }
         }
 
-        public Environment[] Env
+        public Element[] Env
         {
             get
             {
@@ -83,69 +94,23 @@ namespace DiffusionOfSlowingNeutrons
             }
         }
 
-        public bool TwoComponents
+        List<EnvironmentPreset> Environments
         {
             get
             {
-                return twoComponents;
-            }
-            set
-            {
-                twoComponents = value;
-            }
-        }
-
-        public double MassNumber1
-        {
-            get
-            {
-                return env[0].MassNumber;
-            }
-            set
-            {
-                env[0].MassNumber = value;
-            }
-        }
-
-        public double Sigma1
-        {
-            get
-            {
-                return env[0].Sigma;
-            }
-            set
-            {
-                env[0].Sigma = value;
-            }
-        }
-
-        public double MassNumber2
-        {
-            get
-            {
-                return env[1].MassNumber;
-            }
-            set
-            {
-                env[1].MassNumber = value;
-            }
-        }
-
-        public double Sigma2
-        {
-            get
-            {
-                return env[1].Sigma;
-            }
-            set
-            {
-                env[1].Sigma = value;
+                return environments;
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void lstEnvironment_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EnvironmentPreset preset = (EnvironmentPreset)e.AddedItems[0];
+            env = preset.env;
         }
     }
 }

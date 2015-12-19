@@ -7,10 +7,16 @@ using System.Windows.Media.Media3D;
 
 namespace DiffusionOfSlowingNeutrons
 {
-    public struct Environment 
+    public struct Element 
     {
         public double MassNumber;
         public double Sigma;
+
+        public Element(double mass, double sigma)
+        {
+            this.MassNumber = mass;
+            this.Sigma = sigma;
+        }
     } 
 
     public struct ResultPoint
@@ -21,14 +27,14 @@ namespace DiffusionOfSlowingNeutrons
 
     class Model
     {
-        Environment[] data; //массовые числа ядер и соответствующие макроконстанты
+        Element[] data; //массовые числа ядер и соответствующие макроконстанты
         double energy; //энергия нейтронов источника
         Vector3D position; //координаты источника нейтронов
         Random rand;
         const double Et = 0.025;
 
         //конструктор
-        public Model(Environment[] env, double eng, Vector3D pos)
+        public Model(Element[] env, double eng, Vector3D pos)
         {
             data = env;
             energy = eng;
@@ -37,7 +43,7 @@ namespace DiffusionOfSlowingNeutrons
         }
 
         //свойства
-        public Environment[] Data 
+        public Element[] Data 
         {
             get { return data; }
             set { data = value; }

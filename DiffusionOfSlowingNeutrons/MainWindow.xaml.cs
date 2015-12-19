@@ -17,6 +17,7 @@ using System.Collections;
 using OxyPlot;
 using HelixToolkit;
 using HelixToolkit.Wpf;
+using OxyPlot.Wpf;
 
 namespace DiffusionOfSlowingNeutrons
 {
@@ -32,64 +33,63 @@ namespace DiffusionOfSlowingNeutrons
             InitializeComponent();
         }
 
-        public void DrawNeutronWay(Result points)
+        public void DrawNeutronWay(Result points) //отрисовка судьбы нейтрона
         {
-            viewport.Children.Clear();
-            if (points.Count == 0)
+            viewport.Children.Clear(); //очищаем
+            if (points.Count == 0) //если нет точек, то выходим
                 return;
 
-            viewport.Children.Add(new DefaultLights());
+            viewport.Children.Add(new DefaultLights()); //добавляем свет
 
-            double maxEnergy = points[0].Energy;
-            float size = Math.Min(0.1f, (float)points.AverageL / 5.0f);
-            int i = 0;
-            LinesVisual3D lines = new LinesVisual3D();
-            lines.Thickness = 0.5;
+            double maxEnergy = points[0].Energy; //запоминаем начальную энергию
+            float size = Math.Min(0.1f, (float)points.AverageL / 5.0f); //размер шариков
+            LinesVisual3D lines = new LinesVisual3D(); //соединительные линии
+            lines.Thickness = 0.5; //толщина линий
 
-            ArrowVisual3D xAxis = new ArrowVisual3D();
+            ArrowVisual3D xAxis = new ArrowVisual3D(); //координатные оси
             ArrowVisual3D yAxis = new ArrowVisual3D();
             ArrowVisual3D zAxis = new ArrowVisual3D();
 
-            xAxis.Diameter = size / 2;
+            xAxis.Diameter = size / 2; //толщина осей - половина от размера шаров
             yAxis.Diameter = size / 2;
             zAxis.Diameter = size / 2;
 
-            xAxis.Fill = new SolidColorBrush(Color.FromRgb(0x96, 0x4B, 0x4B));
+            xAxis.Fill = new SolidColorBrush(Color.FromRgb(0x96, 0x4B, 0x4B)); //цвета осей
             yAxis.Fill = new SolidColorBrush(Color.FromRgb(0x4B, 0x96, 0x4B));
             zAxis.Fill = new SolidColorBrush(Color.FromRgb(0x4B, 0x4B, 0x96));
 
-            float maxX = 1, maxY = 1, maxZ = 1;
+            float maxX = 1, maxY = 1, maxZ = 1; //в этих переменных будем хранить максимальные значения координат
 
-            foreach (var point in points)
+            foreach (var point in points) //для каждой точки
             {
-                SphereVisual3D item = new SphereVisual3D();
+                SphereVisual3D item = new SphereVisual3D(); //создаем сферу
                 item.Center = new Point3D(point.Position.X,
                                             point.Position.Y,
-                                            point.Position.Z);
+                                            point.Position.Z); //в данной точке
 
-                item.Radius = size;
+                item.Radius = size; //задаем размер
 
+                //задаем цвет, чем меньше энергия, тем краснее
                 byte red = (byte)(255 * (1 - point.Energy / maxEnergy));
+                //чем ближе к начальной энергии - тем зеленее
                 byte green = (byte)(255 * point.Energy / maxEnergy);
                 item.Material  = new DiffuseMaterial(new SolidColorBrush(Color.FromRgb(red, green, 0)));
                 viewport.Children.Add(item);
-                i++;
-
                 
-                maxX = Math.Max(maxX, (float)item.Center.X);
+                maxX = Math.Max(maxX, (float)item.Center.X); //пересчитываем максимальные значения координат
                 maxY = Math.Max(maxY, (float)item.Center.Y);
                 maxZ = Math.Max(maxZ, (float)item.Center.Z);
             }
 
-            xAxis.Point2 = new Point3D(maxX, 0, 0);
+            xAxis.Point2 = new Point3D(maxX, 0, 0); //проводим оси от 0 до максимальных значений
             yAxis.Point2 = new Point3D(0, maxY, 0);
             zAxis.Point2 = new Point3D(0, 0, maxZ);
 
-            viewport.Children.Add(xAxis);
+            viewport.Children.Add(xAxis); //добавляем оси
             viewport.Children.Add(yAxis);
             viewport.Children.Add(zAxis);
 
-            for (int j = 1; j < points.Count; j++)
+            for (int j = 1; j < points.Count; j++) //создаем соединительные линии
             {
                 Point3D begin = new Point3D(points[j - 1].Position.X,
                                             points[j - 1].Position.Y,
@@ -100,53 +100,44 @@ namespace DiffusionOfSlowingNeutrons
                 lines.Points.Add(begin);
                 lines.Points.Add(end);
             }
-            viewport.Children.Add(lines);
+            viewport.Children.Add(lines); //добавляем их
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e) //кнопка Начать моделирование
         {
-            StartModelWindow win = new StartModelWindow();
+            StartModelWindow win = new StartModelWindow(); //вызываем окно начальных параметров
             win.ShowDialog();
 
-            Vector3D startPoint = win.Position;
-            double energy = win.Energy;
+            Vector3D startPoint = win.Position; //получаем введенные значения
+            double energy = win.Energy * 1e+6;
             int count = win.Count;
 
-            //Environment[] env = new Environment[1];
-            //env[0].MassNumber = 12;
-            //env[0].Sigma = 1;
+            Element[] env;
+            env = win.Env;
 
-            Environment[] env;
-            if (win.TwoComponents)
-            {
-                env = win.Env;
-            }
-            else
-            {
-                env = new Environment[1];
-                env[0] = win.Env[0];
-            }
-
-            session = new ModellingSession(env, energy, startPoint);
+            session = new ModellingSession(env, energy, startPoint); //создаем новую сессию
             this.DataContext = session;
 
+            //Пишем параметры среды для пользователя
             if (env.Count() == 1)
-                lblModelParams.Content = String.Format("Параметры среды:\nМассовое число: {0}\nМакросечение: {1}\nКоординаты источника:\n{{{2}, {3}, {4}}}\nЭнергия источника: {5}",
-                    env[0].MassNumber, env[0].Sigma, startPoint.X, startPoint.Y, startPoint.Z, energy);
+                lblModelParams.Content = String.Format("Параметры среды:\nМассовое число: {0} а.е.м.\nМакросечение: {1} см^-1\nКоординаты источника:\n{{{2}, {3}, {4}}}\nЭнергия источника: {5} МэВ",
+                    env[0].MassNumber, env[0].Sigma, startPoint.X, startPoint.Y, startPoint.Z, energy / 1e+6);
             else if (env.Count() == 2)
-                lblModelParams.Content = String.Format("Параметры среды:\nЭлемент 1:\nМассовое число: {0}\nМакросечение: {1}\nЭлемент 2:\nМассовое число: {2}\nМакросечение: {3}\nКоординаты источника:\n{{{4}, {5}, {6}}}\nЭнергия источника: {7}",
-                    env[0].MassNumber, env[0].Sigma, env[1].MassNumber, env[1].Sigma, startPoint.X, startPoint.Y, startPoint.Z, energy);
+                lblModelParams.Content = String.Format("Параметры среды:\nЭлемент 1:\nМассовое число: {0} а.е.м.\nМакросечение: {1} см^-1\nЭлемент 2:\nМассовое число: {2} а.е.м.\nМакросечение: {3} см^-1\nКоординаты источника:\n{{{4}, {5}, {6}}}\nЭнергия источника: {7} МэВ",
+                    env[0].MassNumber, env[0].Sigma, env[1].MassNumber, env[1].Sigma, startPoint.X, startPoint.Y, startPoint.Z, energy / 1e+6);
 
+            //рассмотрим несколько судеб нейтронов
             int neutronToShow = -1;
             for (int i = 0; i < count; i++)
                 neutronToShow = NextNeutron();
 
             if (neutronToShow != -1)
-                ShowNeutron(neutronToShow);
-            plotAverageL.InvalidatePlot();
+                ShowNeutron(neutronToShow); //покажем последний нейтрон
+            plotAverageTau.InvalidatePlot(); //перерисуем графики
+            plotAverageTauM.InvalidatePlot();
         }
 
-        private int NextNeutron()
+        private int NextNeutron() //рассмотреть еще один нейтрон
         {
             if (session != null)
             {
@@ -159,21 +150,21 @@ namespace DiffusionOfSlowingNeutrons
             return -1;
         }
 
-        private void ShowNeutron(int i)
+        private void ShowNeutron(int i) //показать судьбу нейтрона
         {
             if (i == -1)
                 return;
             Result neutron = session[i];
             DrawNeutronWay(neutron);
-            lblStats.Content = String.Format("<l> = {0}, L = {1}, t = {2}", neutron.AverageL, neutron.SumL, neutron.Count - 1);
+            lblStats.Content = String.Format("<l> = {0}, τ = {1}", neutron.AverageL, neutron.GetR2ForE(0));
         }
 
-        private void lstNeutrons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void lstNeutrons_SelectionChanged(object sender, SelectionChangedEventArgs e) //выбрали нейтрон из списка
         {
             if (e.AddedItems.Count > 0)
             {
                 int neutron = (int)e.AddedItems[0] - 1;
-                ShowNeutron(neutron);
+                ShowNeutron(neutron); //показать судьбу
             }
         }
 
@@ -181,13 +172,14 @@ namespace DiffusionOfSlowingNeutrons
         {
             int neutronToShow = NextNeutron();
             ShowNeutron(neutronToShow);
-            plotAverageL.InvalidatePlot();
+            plotAverageTau.InvalidatePlot();
+            plotAverageTauM.InvalidatePlot();
         }
 
-        private void btnNextStep_Click(object sender, RoutedEventArgs e)
+        private void btnNextStep_Click(object sender, RoutedEventArgs e) //рассмотреть еще n нейтронов
         {
             int cnt = 0;
-            string neutronsCountText = txtNeutronsToModel.Text;
+            string neutronsCountText = txtNeutronsToModel.Text; //сколько нейтронов рассмотреть
             bool status = int.TryParse(neutronsCountText, out cnt);
             int lastCnt = 0;
             if (status)
@@ -197,7 +189,26 @@ namespace DiffusionOfSlowingNeutrons
                     lastCnt = NextNeutron();
                 }
                 ShowNeutron(lastCnt);
-                plotAverageL.InvalidatePlot();
+                plotAverageTau.InvalidatePlot();
+                plotAverageTauM.InvalidatePlot();
+            }
+        }
+
+        private void btnOther2_Click(object sender, RoutedEventArgs e) //рассмотреть две другие судьбы для графика E от r^2
+        {
+            plotEr.Series.Clear(); //очищаем график
+
+            if (session != null && session.Count >= 2) //если есть хотя бы две судьбы
+            {
+                LineSeries Er2 = new LineSeries();
+                Er2.ItemsSource = session.Er2ForRandomNeutron; //берем одну случайную судьбу
+                plotEr.Series.Add(Er2); //добавляем на график
+
+                Er2 = new LineSeries();
+                Er2.ItemsSource = session.Er2ForRandomNeutron; //берем еще одну судьбу
+                plotEr.Series.Add(Er2);
+
+                plotEr.InvalidatePlot(); //перерисовываем график
             }
         }
     }
