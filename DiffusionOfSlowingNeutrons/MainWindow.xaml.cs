@@ -112,19 +112,15 @@ namespace DiffusionOfSlowingNeutrons
             double energy = win.Energy * 1e+6;
             int count = win.Count;
 
-            Element[] env;
+            EnvironmentPreset env;
             env = win.Env;
 
             session = new ModellingSession(env, energy, startPoint); //создаем новую сессию
             this.DataContext = session;
 
             //Пишем параметры среды для пользователя
-            if (env.Count() == 1)
-                lblModelParams.Content = String.Format("Параметры среды:\nМассовое число: {0} а.е.м.\nМакросечение: {1} см^-1\nКоординаты источника:\n{{{2}, {3}, {4}}}\nЭнергия источника: {5} МэВ",
-                    env[0].MassNumber, env[0].Sigma, startPoint.X, startPoint.Y, startPoint.Z, energy / 1e+6);
-            else if (env.Count() == 2)
-                lblModelParams.Content = String.Format("Параметры среды:\nЭлемент 1:\nМассовое число: {0} а.е.м.\nМакросечение: {1} см^-1\nЭлемент 2:\nМассовое число: {2} а.е.м.\nМакросечение: {3} см^-1\nКоординаты источника:\n{{{4}, {5}, {6}}}\nЭнергия источника: {7} МэВ",
-                    env[0].MassNumber, env[0].Sigma, env[1].MassNumber, env[1].Sigma, startPoint.X, startPoint.Y, startPoint.Z, energy / 1e+6);
+            lblModelParams.Content = String.Format("Параметры среды:\nВещество: {0}\nМакросечение: {1:0.###} см^-1\nКоординаты источника:\n{{{2}, {3}, {4}}}\nЭнергия источника: {5} МэВ",
+                    env.name, env.Sigma, startPoint.X, startPoint.Y, startPoint.Z, energy / 1e+6);
 
             //рассмотрим несколько судеб нейтронов
             int neutronToShow = -1;
@@ -156,7 +152,7 @@ namespace DiffusionOfSlowingNeutrons
                 return;
             Result neutron = session[i];
             DrawNeutronWay(neutron);
-            lblStats.Content = String.Format("<l> = {0}, τ = {1}", neutron.AverageL, neutron.GetR2ForE(0));
+            lblStats.Content = String.Format("ls = {0}, τ = {1}", neutron.AverageL, neutron.GetR2ForE(0));
         }
 
         private void lstNeutrons_SelectionChanged(object sender, SelectionChangedEventArgs e) //выбрали нейтрон из списка

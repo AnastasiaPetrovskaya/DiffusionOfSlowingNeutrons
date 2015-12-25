@@ -24,18 +24,18 @@ namespace DiffusionOfSlowingNeutrons
         Vector3D position;
         double energy;
         int count;
-        Element[] env;
+        EnvironmentPreset env;
 
         public StartModelWindow()
         {
             InitializeComponent();
 
             environments = new List<EnvironmentPreset>(); //добавляем параметры для различных сред
-            environments.Add(new EnvironmentPreset("H2O", new Element[]{new Element(1, 1), new Element(16, 1)}));
-            environments.Add(new EnvironmentPreset("D2O", new Element[]{new Element(2, 1), new Element(16, 1)}));
-            environments.Add(new EnvironmentPreset("Be", new Element[]{new Element(9, 1)}));
-            environments.Add(new EnvironmentPreset("BeO", new Element[]{new Element(9, 1), new Element(16, 1)}));
-            environments.Add(new EnvironmentPreset("C", new Element[]{new Element(12, 1)}));
+            environments.Add(new EnvironmentPreset("H2O", 1, new Element[]{new Element(1, 20.4), new Element(16, 3.76)}, new int[]{2, 1}));
+            environments.Add(new EnvironmentPreset("D2O", 1.11f, new Element[] { new Element(2, 3.39), new Element(16, 3.76) }, new int[] {2, 1}));
+            environments.Add(new EnvironmentPreset("Be", 1.848f, new Element[]{new Element(9, 6.14)}, new int[]{1}));
+            environments.Add(new EnvironmentPreset("BeO", 3.02f, new Element[] { new Element(9, 6.14), new Element(16, 3.76) }, new int[] {1, 1}));
+            environments.Add(new EnvironmentPreset("C", 2.25f, new Element[] { new Element(12, 4.75) }, new int[] {1}));
 
             lstEnvironment.ItemsSource = environments;
             lstEnvironment.SelectedItem = environments.Last();
@@ -44,8 +44,8 @@ namespace DiffusionOfSlowingNeutrons
             this.energy = 1; //начальная энергия (МэВ)
             this.count = 10; //число судеб для рассмотрения
 
-            //среда - углерод
-            this.env = ((EnvironmentPreset)lstEnvironment.SelectedItem).env;
+            //по умолчанию среда - углерод
+            this.env = ((EnvironmentPreset)lstEnvironment.SelectedItem);
 
             this.DataContext = this;
         }
@@ -86,7 +86,7 @@ namespace DiffusionOfSlowingNeutrons
             }
         }
 
-        public Element[] Env
+        public EnvironmentPreset Env
         {
             get
             {
@@ -110,7 +110,7 @@ namespace DiffusionOfSlowingNeutrons
         private void lstEnvironment_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             EnvironmentPreset preset = (EnvironmentPreset)e.AddedItems[0];
-            env = preset.env;
+            env = preset;
         }
     }
 }

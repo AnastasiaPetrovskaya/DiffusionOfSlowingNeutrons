@@ -7,17 +7,6 @@ using System.Windows.Media.Media3D;
 
 namespace DiffusionOfSlowingNeutrons
 {
-    public struct Element 
-    {
-        public double MassNumber;
-        public double Sigma;
-
-        public Element(double mass, double sigma)
-        {
-            this.MassNumber = mass;
-            this.Sigma = sigma;
-        }
-    } 
 
     public struct ResultPoint
     {
@@ -27,14 +16,14 @@ namespace DiffusionOfSlowingNeutrons
 
     class Model
     {
-        Element[] data; //массовые числа ядер и соответствующие макроконстанты
+        EnvironmentPreset data; //массовые числа ядер и соответствующие макроконстанты
         double energy; //энергия нейтронов источника
         Vector3D position; //координаты источника нейтронов
         Random rand;
         const double Et = 0.025;
 
         //конструктор
-        public Model(Element[] env, double eng, Vector3D pos)
+        public Model(EnvironmentPreset env, double eng, Vector3D pos)
         {
             data = env;
             energy = eng;
@@ -43,7 +32,7 @@ namespace DiffusionOfSlowingNeutrons
         }
 
         //свойства
-        public Element[] Data 
+        public EnvironmentPreset Data 
         {
             get { return data; }
             set { data = value; }
@@ -63,11 +52,7 @@ namespace DiffusionOfSlowingNeutrons
         {
             //длина свободного пробега нейтрона до столкновения
             double gamma = rand.NextDouble();
-            double sumSigma = 0;
-            for (int i = 0; i <= data.Length -1; i++ )
-            {
-                sumSigma += data[i].Sigma;
-            }
+            double sumSigma = data.Sigma;
             double gammaLn = Math.Log(gamma);
             double res;
             res = -(gammaLn / sumSigma);
@@ -99,8 +84,8 @@ namespace DiffusionOfSlowingNeutrons
         {
             // определяется с ядром какого сорта столкнулся нейтрон
             double gamma = rand.NextDouble();
-            double sumSigma = data[0].Sigma + data[1].Sigma;
-            if (gamma < data[0].Sigma / sumSigma)
+            double sumSigma = data.Sigma;
+            if (gamma < data.SigmaElement(0) / sumSigma)
             {
                 return 0;
             }
@@ -109,7 +94,7 @@ namespace DiffusionOfSlowingNeutrons
 
         private double Final(int element, double curEnergy, Vector3D omega)
         {
-            double eps = Math.Pow((data[element].MassNumber - 1.0), 2) / Math.Pow((data[element].MassNumber + 1.0), 2);
+            double eps = Math.Pow((data.env[element].MassNumber - 1.0), 2) / Math.Pow((data.env[element].MassNumber + 1.0), 2);
             double resEnergy;
             resEnergy = curEnergy * ((1.0 + eps) + (1.0 - eps) * omega.Z) / 2;
             return resEnergy;
@@ -131,7 +116,7 @@ namespace DiffusionOfSlowingNeutrons
                 Vector3D contactPoint = ContactPoint(omega, ls, curPosition);
                 curPosition = contactPoint;
                 int elementNumber;
-                if (data.Length == 2)
+                if (data.env.Length == 2)
                 {
                     elementNumber = ChooseElement();
                 }

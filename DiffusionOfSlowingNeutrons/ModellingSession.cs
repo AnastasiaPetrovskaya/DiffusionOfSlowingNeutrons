@@ -18,7 +18,7 @@ namespace DiffusionOfSlowingNeutrons
         List<DataPoint> averageL, averageR2, averageTau, averageTauM; //данные для графиков
         Random rnd;
 
-        public ModellingSession(Element[] env, double energy, Vector3D position)
+        public ModellingSession(EnvironmentPreset env, double energy, Vector3D position)
         {
             this.rnd = new Random();
             this.model = new Model(env, energy, position);
