@@ -105,6 +105,8 @@ namespace DiffusionOfSlowingNeutrons
 
         private void Button_Click(object sender, RoutedEventArgs e) //кнопка Начать моделирование
         {
+            txtStart.Visibility = System.Windows.Visibility.Collapsed; //скрываем приветствие
+
             StartModelWindow win = new StartModelWindow(); //вызываем окно начальных параметров
             win.ShowDialog();
 

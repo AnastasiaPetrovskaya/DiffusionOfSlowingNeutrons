@@ -56,6 +56,17 @@
                                        ShowCoordinateSystem="True" Grid.ColumnSpan="2" Margin="0,0,-0.4,0.4">
                         <h:DefaultLights/>
                     </h:HelixViewport3D>
+                    
+                    <TextBlock Name="txtStart"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           Background="White" FontSize="20" TextAlignment="Center" VerticalAlignment="Center">
+                        Лабораторная работа
+                        <LineBreak/>
+                        "Диффузия замедляющихся нейтронов"
+                        <LineBreak/>
+                        Для начала работы нажмите кнопку "Начать моделирование"
+                    </TextBlock>
 
                     <Label Name="lblStats"
                            Grid.Column="0"
