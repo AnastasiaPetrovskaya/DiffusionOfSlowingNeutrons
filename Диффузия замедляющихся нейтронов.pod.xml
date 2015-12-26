@@ -43,7 +43,7 @@
     <MoveCompletedEndsForward>0</MoveCompletedEndsForward>
     <BaselineForEarnedValue>0</BaselineForEarnedValue>
     <AutoAddNewResourcesAndTasks>1</AutoAddNewResourcesAndTasks>
-    <CurrentDate>2015-12-21T02:14:00</CurrentDate>
+    <CurrentDate>2015-12-21T02:57:00</CurrentDate>
     <MicrosoftProjectServerURL>1</MicrosoftProjectServerURL>
     <Autolink>1</Autolink>
     <NewTaskStartDate>0</NewTaskStartDate>
@@ -528,8 +528,8 @@
             <OutlineLevel>1</OutlineLevel>
             <Priority>500</Priority>
             <Start>2015-11-16T08:00:00</Start>
-            <Finish>2015-12-21T09:00:00</Finish>
-            <Duration>PT281H0M0S</Duration>
+            <Finish>2015-12-20T17:00:00</Finish>
+            <Duration>PT280H0M0S</Duration>
             <DurationFormat>39</DurationFormat>
             <ResumeValid>0</ResumeValid>
             <EffortDriven>1</EffortDriven>
@@ -542,9 +542,9 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <TotalSlack>3300000</TotalSlack>
+            <TotalSlack>3360000</TotalSlack>
             <FixedCostAccrual>2</FixedCostAccrual>
-            <RemainingDuration>PT281H0M0S</RemainingDuration>
+            <RemainingDuration>PT280H0M0S</RemainingDuration>
             <ConstraintType>0</ConstraintType>
             <CalendarUID>-1</CalendarUID>
             <ConstraintDate>1970-01-01T00:00:00</ConstraintDate>
@@ -836,8 +836,8 @@
             <OutlineNumber>2.7</OutlineNumber>
             <OutlineLevel>2</OutlineLevel>
             <Priority>500</Priority>
-            <Start>2015-12-14T09:00:00</Start>
-            <Finish>2015-12-21T09:00:00</Finish>
+            <Start>2015-12-14T08:00:00</Start>
+            <Finish>2015-12-20T17:00:00</Finish>
             <Duration>PT56H0M0S</Duration>
             <DurationFormat>39</DurationFormat>
             <ResumeValid>0</ResumeValid>
@@ -851,12 +851,12 @@
             <IsSubproject>0</IsSubproject>
             <IsSubprojectReadOnly>0</IsSubprojectReadOnly>
             <ExternalTask>0</ExternalTask>
-            <TotalSlack>3300000</TotalSlack>
+            <TotalSlack>3360000</TotalSlack>
             <FixedCostAccrual>2</FixedCostAccrual>
             <RemainingDuration>PT56H0M0S</RemainingDuration>
             <ConstraintType>4</ConstraintType>
             <CalendarUID>-1</CalendarUID>
-            <ConstraintDate>2015-12-14T09:00:00</ConstraintDate>
+            <ConstraintDate>2015-12-14T08:00:00</ConstraintDate>
             <LevelAssignments>0</LevelAssignments>
             <LevelingCanSplit>0</LevelingCanSplit>
             <LevelingDelay>0</LevelingDelay>
@@ -1378,7 +1378,7 @@
             <PeakUnits>1</PeakUnits>
             <OverAllocated>0</OverAllocated>
             <Start>2015-11-16T08:00:00</Start>
-            <Finish>2015-12-21T09:00:00</Finish>
+            <Finish>2015-12-20T17:00:00</Finish>
             <CanLevel>0</CanLevel>
             <AccrueAt>3</AccrueAt>
             <StandardRateFormat>3</StandardRateFormat>
@@ -1479,7 +1479,7 @@
         <Assignment>
             <TaskUID>3</TaskUID>
             <ResourceUID>-65535</ResourceUID>
-            <Finish>2015-12-21T09:00:00</Finish>
+            <Finish>2015-12-20T17:00:00</Finish>
             <HasFixedRateUnits>1</HasFixedRateUnits>
             <FixedMaterial>0</FixedMaterial>
             <RemainingWork>PT8H0M0S</RemainingWork>
@@ -1927,71 +1927,64 @@
         <Assignment>
             <TaskUID>10</TaskUID>
             <ResourceUID>4</ResourceUID>
-            <Finish>2015-12-21T09:00:00</Finish>
+            <Finish>2015-12-20T17:00:00</Finish>
             <HasFixedRateUnits>1</HasFixedRateUnits>
             <FixedMaterial>0</FixedMaterial>
             <RemainingWork>PT56H0M0S</RemainingWork>
-            <Start>2015-12-14T09:00:00</Start>
+            <Start>2015-12-14T08:00:00</Start>
             <Stop>1970-01-01T03:00:00</Stop>
-            <Resume>2015-12-14T12:00:00</Resume>
+            <Resume>2015-12-14T11:00:00</Resume>
             <Units>1</Units>
             <Work>PT56H0M0S</Work>
             <WorkContour>0</WorkContour>
             <TimephasedData>
                 <Type>1</Type>
-                <Start>2015-12-14T12:00:00</Start>
-                <Finish>2015-12-15T12:00:00</Finish>
-                <Unit>3</Unit>
-                <Value>PT7H0M0S</Value>
-            </TimephasedData>
-            <TimephasedData>
-                <Type>1</Type>
-                <Start>2015-12-15T12:00:00</Start>
-                <Finish>2015-12-16T12:00:00</Finish>
+                <Start>2015-12-14T11:00:00</Start>
+                <Finish>2015-12-15T11:00:00</Finish>
                 <Unit>3</Unit>
                 <Value>PT8H0M0S</Value>
             </TimephasedData>
             <TimephasedData>
                 <Type>1</Type>
-                <Start>2015-12-16T12:00:00</Start>
-                <Finish>2015-12-17T12:00:00</Finish>
+                <Start>2015-12-15T11:00:00</Start>
+                <Finish>2015-12-16T11:00:00</Finish>
                 <Unit>3</Unit>
                 <Value>PT8H0M0S</Value>
             </TimephasedData>
             <TimephasedData>
                 <Type>1</Type>
-                <Start>2015-12-17T12:00:00</Start>
-                <Finish>2015-12-18T12:00:00</Finish>
+                <Start>2015-12-16T11:00:00</Start>
+                <Finish>2015-12-17T11:00:00</Finish>
                 <Unit>3</Unit>
                 <Value>PT8H0M0S</Value>
             </TimephasedData>
             <TimephasedData>
                 <Type>1</Type>
-                <Start>2015-12-18T12:00:00</Start>
-                <Finish>2015-12-19T12:00:00</Finish>
+                <Start>2015-12-17T11:00:00</Start>
+                <Finish>2015-12-18T11:00:00</Finish>
                 <Unit>3</Unit>
                 <Value>PT8H0M0S</Value>
             </TimephasedData>
             <TimephasedData>
                 <Type>1</Type>
-                <Start>2015-12-19T12:00:00</Start>
-                <Finish>2015-12-20T12:00:00</Finish>
+                <Start>2015-12-18T11:00:00</Start>
+                <Finish>2015-12-19T11:00:00</Finish>
                 <Unit>3</Unit>
                 <Value>PT8H0M0S</Value>
             </TimephasedData>
             <TimephasedData>
                 <Type>1</Type>
-                <Start>2015-12-20T12:00:00</Start>
-                <Finish>2015-12-21T12:00:00</Finish>
+                <Start>2015-12-19T11:00:00</Start>
+                <Finish>2015-12-20T11:00:00</Finish>
                 <Unit>3</Unit>
                 <Value>PT8H0M0S</Value>
             </TimephasedData>
             <TimephasedData>
                 <Type>1</Type>
-                <Start>2015-12-21T12:00:00</Start>
-                <Finish>2015-12-21T21:00:00</Finish>
+                <Start>2015-12-20T11:00:00</Start>
+                <Finish>2015-12-21T04:00:00</Finish>
                 <Unit>3</Unit>
-                <Value>PT1H0M0S</Value>
+                <Value>PT8H0M0S</Value>
             </TimephasedData>
         </Assignment>
         <Assignment>
