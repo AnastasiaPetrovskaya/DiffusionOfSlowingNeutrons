@@ -1,37 +1,17 @@
 ﻿<Window x:Class="DiffusionOfSlowingNeutrons.StartModelWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Height="auto" Width="250" Topmost="True" ResizeMode="NoResize" ShowInTaskbar="False" Title="Задание параметров" WindowStyle="ToolWindow">
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="b2v" />
-    </Window.Resources>
+        Height="auto" Width="269.2" Topmost="True" ResizeMode="NoResize" ShowInTaskbar="False" Title="Задание параметров" WindowStyle="ToolWindow">
     <StackPanel Height="auto">
-        <Label>Энергия нейтронов источника:</Label>
+        <Label>Энергия нейтронов источника, МэВ:</Label>
         <TextBox Text="{Binding Energy}" />
         <Label>Координаты источника нейтронов x, y, z:</Label>
-        <TextBox Text="{Binding Position}" />
+        <TextBox IsReadOnly="True" Text="{Binding Position}" />
         <Label>Количество нейтронов:</Label>
         <TextBox Text="{Binding Count}" />
         <Label>Рассматриваемая среда:</Label>
-        <RadioButton Name="radOne" IsChecked="True">Однокомпонентная</RadioButton>
-        <RadioButton Name="radTwo" IsChecked="{Binding TwoComponents}">Двухкомпонентная</RadioButton>
-        <GroupBox Header="Элемент 1">
-            <StackPanel>
-                <Label>Массовое число:</Label>
-                <TextBox Text="{Binding MassNumber1}" />
-                <Label>Макросечение:</Label>
-                <TextBox Text="{Binding Sigma1}" />
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Header="Элемент 2"
-                  Visibility="{Binding ElementName=radTwo, Path=IsChecked, Converter={StaticResource b2v} }">
-            <StackPanel>
-                <Label>Массовое число:</Label>
-                <TextBox Text="{Binding MassNumber2}" />
-                <Label>Макросечение:</Label>
-                <TextBox Text="{Binding Sigma2}" />
-            </StackPanel>
-        </GroupBox>
+        <ListBox Name="lstEnvironment"
+                 SelectionChanged="lstEnvironment_SelectionChanged"/>
         <Button Click="Button_Click">Начать</Button>
     </StackPanel>
 </Window>
