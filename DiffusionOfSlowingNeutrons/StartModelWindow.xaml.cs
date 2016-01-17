@@ -41,7 +41,7 @@ namespace DiffusionOfSlowingNeutrons
             lstEnvironment.SelectedItem = environments.Last();
 
             this.position = new Vector3D(0, 0, 0); //координаты источника
-            this.energy = 1; //начальная энергия (МэВ)
+            this.energy = 3; //начальная энергия (МэВ)
             this.count = 10; //число судеб для рассмотрения
 
             //по умолчанию среда - углерод

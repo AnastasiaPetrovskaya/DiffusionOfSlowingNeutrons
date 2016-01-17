@@ -29,6 +29,24 @@ namespace DiffusionOfSlowingNeutrons
             this.averageTauM = new List<DataPoint>();
         }
 
+        private double stepE(double E)
+        {
+            if (E == Model.Et)
+                return 0;
+
+            double result;
+
+            if (E / 100.0 > 0.001)
+                result = E / 100.0;
+            else
+                result = E - 0.001;
+
+            if (result < Model.Et)
+                result = Model.Et;
+
+            return result;
+        }
+
         public int ModelNextNeutron() //промоделировать судьбу одного нейтрона
         {
             Result res = model.mainCalculations();
@@ -46,7 +64,8 @@ namespace DiffusionOfSlowingNeutrons
             //пересчитываем r^2 от E и возраст нейтрона от E
             this.averageR2.Clear();
             this.averageTau.Clear();
-            for(double E = model.Energy; E >= 0.025; E -= model.Energy / 100.0) //идем от начальной энергии до 0.025 эВ за 100 шагов
+            //double step = (model.Energy - Model.Et) / 100.0;
+            for(double E = model.Energy; E >= Model.Et; E = stepE(E)) //идем от начальной энергии до 0.025 эВ
             {
                 DataPoint r = new DataPoint(E, 0);
                 for (int i = 0; i < neutrons.Count; i++)

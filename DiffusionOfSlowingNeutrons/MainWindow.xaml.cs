@@ -18,6 +18,7 @@ using OxyPlot;
 using HelixToolkit;
 using HelixToolkit.Wpf;
 using OxyPlot.Wpf;
+using System.IO;
 
 namespace DiffusionOfSlowingNeutrons
 {
@@ -31,6 +32,11 @@ namespace DiffusionOfSlowingNeutrons
         public MainWindow()
         {
             InitializeComponent();
+            System.Uri pdf = new System.Uri(String.Format("file:///{0}/diffusion.pdf", Directory.GetCurrentDirectory()));
+            webHelp.Navigate(pdf);
+
+            axisEnergy1.LabelFormatter = EnergyFormatter;
+            axisEnergy2.LabelFormatter = EnergyFormatter;
         }
 
         public void DrawNeutronWay(Result points) //отрисовка судьбы нейтрона
@@ -154,7 +160,12 @@ namespace DiffusionOfSlowingNeutrons
                 return;
             Result neutron = session[i];
             DrawNeutronWay(neutron);
-            lblStats.Content = String.Format("ls = {0}, τ = {1}", neutron.AverageL, neutron.GetR2ForE(0));
+            lblStats.Content = String.Format("ls = {0}, τ = {1}", neutron.AverageL, neutron.GetR2ForE(Model.Et) / 6);
+        }
+
+        private static string EnergyFormatter(double d)
+        {
+            return String.Format("{0:0.###e-0}", d);
         }
 
         private void lstNeutrons_SelectionChanged(object sender, SelectionChangedEventArgs e) //выбрали нейтрон из списка

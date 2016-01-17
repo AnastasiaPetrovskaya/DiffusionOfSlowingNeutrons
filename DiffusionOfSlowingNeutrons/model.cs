@@ -20,7 +20,7 @@ namespace DiffusionOfSlowingNeutrons
         double energy; //энергия нейтронов источника
         Vector3D position; //координаты источника нейтронов
         Random rand;
-        const double Et = 0.025;
+        public const double Et = 0.025;
 
         //конструктор
         public Model(EnvironmentPreset env, double eng, Vector3D pos)

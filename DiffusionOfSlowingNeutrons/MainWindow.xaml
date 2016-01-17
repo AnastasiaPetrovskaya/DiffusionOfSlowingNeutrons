@@ -74,7 +74,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Статистика">
+            <TabItem Header="Статистика 1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -89,7 +89,7 @@
                               Title="Среднее τ(E)"
                               Grid.Row="0">
                         <oxy:Plot.Axes>
-                            <oxy:LinearAxis Position="Bottom" Title="Энергия E, эВ" />
+                            <oxy:LinearAxis Name="axisEnergy1" Position="Bottom" Title="Энергия E, эВ" />
                             <oxy:LinearAxis Position="Left" Title="Возраст τ, см^2" />
                         </oxy:Plot.Axes>
                         <oxy:Plot.Series>
@@ -100,7 +100,7 @@
                               Title="E(r^2) для двух нейтронов"
                               Grid.Row="1">
                         <oxy:Plot.Axes>
-                            <oxy:LinearAxis Position="Left" Title="Энергия E, эВ" />
+                            <oxy:LinearAxis Name="axisEnergy2" Position="Left" Title="Энергия E, эВ" />
                             <oxy:LinearAxis Position="Bottom" Title="Квадрат смещения r^2, см^2" />
                         </oxy:Plot.Axes>
                     </oxy:Plot>
@@ -109,7 +109,7 @@
                     </Button>
                 </Grid>
             </TabItem>
-            <TabItem Header="Статистика">
+            <TabItem Header="Статистика 2">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -131,6 +131,9 @@
                         </oxy:Plot.Series>
                     </oxy:Plot>
                 </Grid>
+            </TabItem>
+            <TabItem Header="Справка">
+                <WebBrowser Name="webHelp"/>
             </TabItem>
         </TabControl>
     </Grid>
