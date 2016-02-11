@@ -11,6 +11,14 @@ namespace DiffusionOfSlowingNeutrons
         public double MassNumber;
         public double Sigma;
 
+        public double SigmaTr
+        {
+            get
+            {
+                return Sigma * (1 - 2 / (3 * MassNumber));
+            }
+        }
+
         //mass - атомный номер
         //sigma - микроскопическое сечение рассеивания, * 10^-24
         public Element(double mass, double sigma)
@@ -43,6 +51,20 @@ namespace DiffusionOfSlowingNeutrons
             }
         }
 
+        //макроскопическое транспортное сечение для среды
+        public double SigmaTr
+        {
+            get
+            {
+                double sigma = 0;
+                for (int i = 0; i < env.Length; i++)
+                {
+                    sigma += SigmaTrElement(i);
+                }
+                return sigma;
+            }
+        }
+
         //молярная масса вещества, г/моль
         public double MolarMass
         {
@@ -60,6 +82,12 @@ namespace DiffusionOfSlowingNeutrons
         {
             double N = Math.Round(density * Na / MolarMass);
             return N * env[element].Sigma * amount[element];
+        }
+        //макроскопическое транспортное сечение для одного сорта атомов
+        public double SigmaTrElement(int element)
+        {
+            double N = Math.Round(density * Na / MolarMass);
+            return N * env[element].SigmaTr * amount[element];
         }
 
         public EnvironmentPreset(string name, float density, Element[] env, int[] amount)

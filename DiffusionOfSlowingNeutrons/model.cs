@@ -52,7 +52,7 @@ namespace DiffusionOfSlowingNeutrons
         {
             //длина свободного пробега нейтрона до столкновения
             double gamma = rand.NextDouble();
-            double sumSigma = data.Sigma;
+            double sumSigma = data.SigmaTr;
             double gammaLn = Math.Log(gamma);
             double res;
             res = -(gammaLn / sumSigma);
